@@ -1,0 +1,34 @@
+# this is a comment!,,
+# don't delete entries,,
+# don't add spaces on the entries,,
+# dont leave entries blank,,
+# keys must be unique,,
+
+# UNIQUE Keys,# Game Mode 1,# Game Mode 2
+# player,# player,# player
+player_pos_x,1.5,3.5
+player_pos_y,1.5,1.5
+player_angle,-1.57,-1.57
+player_radius,0.25,0.25
+player_health,50,50
+player_regen,1,1
+
+# buttons,# buttons,# buttons
+button_width,200,200
+button_height,175,175
+
+#audio,#audio,#audio
+player_atk,player_atk.wav,player_atk.wav
+player_hit,player_hit.wav,player_hit.wav
+npc_atk,npc_atk.wav,npc_atk.wav
+npc_hit,npc_hit.wav,npc_hit.wav
+notification,notification.wav,notification.wav
+beep,beep.wav,beep.wav
+pause_start,pause_start.wav,pause_start.wav
+theme,theme.mp3,theme_2.mp3
+
+# map,,
+map_path,resources/maps/arena_map.txt,resources/maps/xbackrooms_map.txt
+
+# sky |save sky textures here: resources/textures/sky/ | dont forget to include the '.png' file extension
+sky_path,cloudy_sky.png,dark_night_sky.png

@@ -1,0 +1,6 @@
+player_pos_x,1.5
+player_pos_y,1.5
+player_angle,0
+player_radius,0.1
+player_health,100
+player_regen,1
