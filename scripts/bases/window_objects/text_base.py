@@ -12,9 +12,19 @@ class TextBase(WindowObject):
 		# halign: auto, left, center, right and justify
 		# valign:  ‘bottom’, ‘middle’ (or ‘center’) and ‘top’.
 		
+		self.init_text=text
+		self.font_name=font_name
+		self.halign=halign
+		self.valign=valign
+		self.font_size=font_size
+		self.text_size=text_size
+		self.init_text_color=text_color
+		self.padding_x=padding_x
+		self.padding_y=padding_y
+		
 		self.label=None
 		try:
-			self.label = Label(text=text, font_name=font_name, halign=halign, valign=valign, font_size=font_size, text_size=text_size, color=text_color, markup=True)
+			self.label = Label(text=self.init_text, font_name=self.font_name, halign=self.halign, valign=self.valign, font_size=self.font_size, text_size=self.text_size, color=self.init_text_color, markup=True)
 			
 		except IOError:
 			self.label = Label(text=text) 
@@ -49,7 +59,10 @@ class TextBase(WindowObject):
 	#<----Base Functions: re_init, update		
 	def re_init(self):
 		super().re_init()
-				
+
+		self.label.text = self.init_text
+		self.label.text_color = self.init_text_color
+			
 	def update(self, dt):
 		super().update(dt)
 		

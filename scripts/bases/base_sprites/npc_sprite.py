@@ -20,10 +20,10 @@ class NPCSprite(SceneSprite):
 		self.path_colour = 1, random.uniform(0, 1), random.uniform(0, 1)
 
 		#<----Animation Sequences
-		self.walk_i_seq = (image for image in get_image_sequence(self.init_img_seq_id, 'walk'))
-		self.hit_i_seq = (image for image in get_image_sequence(self.init_img_seq_id, 'hit'))
-		self.die_i_seq = (image for image in get_image_sequence(self.init_img_seq_id, 'death'))
-		self.atk_i_seq = (image for image in get_image_sequence(self.init_img_seq_id, 'attack'))
+		self.walk_i_seq = (image for image in get_image_sequence(self.img_seq_id, 'walk'))
+		self.hit_i_seq = (image for image in get_image_sequence(self.img_seq_id, 'hit'))
+		self.die_i_seq = (image for image in get_image_sequence(self.img_seq_id, 'death'))
+		self.atk_i_seq = (image for image in get_image_sequence(self.img_seq_id, 'attack'))
 		
 		#<----Animation intervals
 		self.idle_interval = idle_interval

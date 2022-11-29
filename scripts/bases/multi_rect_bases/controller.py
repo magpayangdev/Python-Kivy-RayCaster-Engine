@@ -6,55 +6,63 @@ import math
 from scripts.bases.multi_rect_bases.nested_rect import NestedRect
 
 class Controller(NestedRect):
-	def __init__(self, game, window=None, orientation='right', img_name_1='dotted_circle.png', img_name_2='dotted_circle.png', size=controller_size(), offset=controller_size()[0]/3, hide=True):
+	def __init__(self, game, window=None, orientation='right', img_name_1='dotted_circle.png', img_name_2='circle.png', size=controller_size(), offset=controller_size()[0]/3, pressed_color=(1,1,0,1), normal_color=(1,1,1,1), hide=True):
 
 		super().__init__(game=game, window=window, num_rects=2, size=size, pos=(0,0), offset=offset, hide=hide)
 
-		self.init_img_name_1 = img_name_1
-		self.init_img_name_2 = img_name_2
-		self.init_orientation = orientation
+		self.img_name_1 = img_name_1
+		self.img_name_2 = img_name_2
+		self.orientation = orientation
 
-		self.rects[0].rect.texture = get_controller_texture(self.init_img_name_1)
-		self.rects[1].rect.texture = get_controller_texture(self.init_img_name_2)
+		self.rects[0].texture = get_controller_texture(self.img_name_1)
+		self.rects[1].texture = get_controller_texture(self.img_name_2)
 		
-		if self.init_orientation == 'left':
+		if self.orientation == 'left':
 			self.center = controller_center_left()
 			
-		elif self.init_orientation == 'right':
+		elif self.orientation == 'right':
 			self.center = controller_center_right()
 			
 		else:
-			raise Exception('Invalid orientation: {}'.format(self.init_orientation))
+			raise Exception('Invalid orientation: {}'.format(self.orientation))
+			
+		f = lambda idx: self.center[idx] - self.size[idx] / 2
+		self.pos = tuple(f(idx) for idx, pos in enumerate(self.pos))		
 		
-		self.stick_size = self.rects[1].rect.size
+		self.re_size()		
 		
 		self.accum_time = 9999
 		self.start_count = False
+		self.normal_color = normal_color
+		self.pressed_color = pressed_color
+		self.stick_size = self.rects[1].rect.size
 		
 	#<----Base Functions: re_init, update			
 	def re_init(self):
 		super().re_init()	
 		
-		self.rects[0].rect.texture = get_controller_texture(self.init_img_name_1)
-		self.rects[1].rect.texture = get_controller_texture(self.init_img_name_2)
+		self.rects[0].texture = get_controller_texture(self.img_name_1)
+		self.rects[1].texture = get_controller_texture(self.img_name_2)
 		
-		if self.init_orientation == 'left':
+		if self.orientation == 'left':
 			self.center = controller_center_left()
 			
-		elif self.init_orientation == 'right':
+		elif self.orientation == 'right':
 			self.center = controller_center_right()
 			
 		else:
-			raise Exception('Invalid orientation: {}'.format(self.init_orientation))
+			raise Exception('Invalid orientation: {}'.format(self.orientation))
+			
+		f = lambda idx: self.center[idx] - self.size[idx] / 2
+		self.pos = tuple(f(idx) for idx, pos in enumerate(self.pos))		
 		
-		self.stick_size = self.rects[1].rect.size
+		self.re_size()		
 		
 		self.accum_time = 9999
 		self.start_count = False
-		
-	def update(self,dt):
-		#super().update(dt)
-		
+		self.stick_size = self.rects[1].rect.size
+
+	def update(self,dt):		
 		if not self.start_count:
 			return
 		
@@ -64,16 +72,22 @@ class Controller(NestedRect):
 			self.accum_time = 9999
 			self.start_count = False
 			
+	def flip(self):
+		if self.accum_time < 1:
+			self.flip_func()
+			
+	def flip_func(self):
+		self.stop_counting()
+			
 	def start_counting(self):
 		self.start_count = True
 		self.accum_time = 0
+		self.rects[1].color = self.pressed_color
 		
 	def stop_counting(self):
 		self.start_count = False
 		self.accum_time = 9999
-		
-	def flip(self):
-		pass
+		self.rects[1].color = self.normal_color
 				
 	#<----Rectangle Functions: re_size, show, hide, remove
 	def re_size(self):
@@ -87,6 +101,9 @@ class Controller(NestedRect):
 			
 	def remove(self):
 		super().remove()	
+		
+	def reset_stick(self):
+		self.move_stick(*self.center)
 		
 	def move_stick(self, Px, Py):
 		dist = math.dist((Px,Py), self.center)

@@ -8,13 +8,16 @@ class ButtonBase(WindowObject):
 	def __init__(self, game, window, hide=False, text='BUTTON', background_color=(0,0,0,1), font_name='AdventureRequest', font_size=100, text_color=(1,1,1,1), size=(100,100), pos=(0,0), callback=None):
 		super().__init__(game=game,window=window)
 		
-		self.on_press_cb = None
-		self.on_release_cb = None
+		#self.on_press_cb = None
+		#self.on_release_cb = None
+		
+		self.init_text = text
+		self.init_text_color = text_color
 
-		f = lambda x,y: (x / self.window.width, y / self.window.height)	
-		g = lambda x,y: (x - size[0] / 2, y - size[1] / 2)
+		self.init_size = (size[0] / self.window.width, size[1] / self.window.height)
+		self.init_pos = (pos[0] - size[0] / 2, pos[1] - size[1] / 2)
 			
-		self.button = Button(text=text, background_color=background_color, font_name=font_name, font_size=font_size, color=text_color, size_hint=f(*size), pos=g(*pos))
+		self.button = Button(text=text, background_color=background_color, font_name=font_name, font_size=font_size, color=text_color, size_hint=self.init_size, pos=self.init_pos)
 		
 		if callback:
 			self.button.bind(state=callback)
@@ -61,6 +64,7 @@ class ButtonBase(WindowObject):
 	def state(self, value):
 		if value in ('normal','down'):
 			self.button.state = value
+			
 		else:
 			raise Exception('Invalid button state {}'.format(value))
 			
@@ -85,6 +89,11 @@ class ButtonBase(WindowObject):
 	#<----Base Functions: re_init, update			
 	def re_init(self):
 		super().re_init()
+		
+		self.button.text = self.init_text
+		self.button.text_color = self.init_text_color
+		self.button.size_hint = self.init_size
+		self.button.pos = self.init_pos
 		
 	def update(self,dt):
 		super().update(dt)

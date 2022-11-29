@@ -6,32 +6,32 @@ class TexturedRect(RectBase):
 	def __init__(self, game, window, image_name, image_category, color, size, pos, hide=False):
 		super().__init__(game=game, window=window, color=color, size=size, pos=pos, hide=hide)
 		
-		self.image_name=image_name
-		self.image_category=image_category
+		self.image_name = image_name
+		self.image_category = image_category
 		
 		self.texture=None	
-		if self.image_category=='sky':
+		if self.image_category == 'sky':
 			self.texture=get_sky_texture(self.image_name)
 			
-		elif self.image_category=='controller':
+		elif self.image_category == 'controller':
 			self.texture=get_controller_texture(self.image_name)
 			
-		elif self.image_category=='wall':
+		elif self.image_category == 'wall':
 			self.texture=get_wall_texture(self.image_name)
 			
-		elif self.image_category=='map':
+		elif self.image_category == 'map':
 			self.texture=get_map_texture(self.image_name)
 			
-		elif self.image_category=='digit':
+		elif self.image_category == 'digit':
 			self.texture=get_digit_texture(self.image_name)
 			
-		elif self.image_category=='menu':
+		elif self.image_category == 'menu':
 			self.texture=get_menu_texture(self.image_name)
 			
-		elif self.image_category=='game':
+		elif self.image_category == 'game':
 			self.texture=get_game_texture(self.image_name)
 			
-		elif self.image_category=='floor':
+		elif self.image_category == 'floor':
 			self.texture=flr_texture()
 			
 		else:

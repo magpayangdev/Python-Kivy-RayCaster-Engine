@@ -16,18 +16,18 @@ class ArrayRect(MultiRectBase):
 	def re_init(self):
 		super().re_init()
 		
+		self.re_size()
+		
 	def update(self,dt):
 		super().update(dt)
 		
 	#<----Rectangle Functions: re_size, show, hide, remove
 	def re_size(self):
-		#super().re_size()
-		
 		fpos = lambda idx: (self.pos[0] + (self.offset + self.size[0]) * idx, self.pos[1])
 		for idx, entry in enumerate(self.rects):
 			entry.rect.size = self.size
 			entry.rect.pos = fpos(idx)
-		
+							
 	def show(self):
 		super().show()
 			

@@ -17,28 +17,16 @@ class NestedRect(MultiRectBase):
 			
 			g = lambda idx,p: p + (idx * self.offset)
 			entry.rect.pos = tuple(g(idx, p) for p in self.pos)
-
-		f = lambda idx: self.center[idx] - self.size[idx] / 2
-		self.pos = tuple(f(idx) for idx, pos in enumerate(self.pos))		
-					
+								
 	#<----Base Functions: re_init, update			
 	def re_init(self):
-		#super().re_init()
-		
-		self.re_position_rect()
-		
-	def update(self,dt):
-		#super().update(dt)
 		pass
 		
-	def re_position_rect(self):
-		f = lambda idx: self.center[idx] - self.size[idx] / 2
-		self.pos = tuple(f(idx) for idx, pos in enumerate(self.pos))		
+	def update(self,dt):
+		pass
 		
 	#<----Rectangle Functions: re_size, show, hide, remove
-	def re_size(self):
-		#super().re_size()
-				
+	def re_size(self):				
 		for idx, entry in enumerate(self.rects):
 			f = lambda i,s: s - (2 * i * self.offset)
 			entry.rect.size = tuple(f(idx, s) for s in self.size)

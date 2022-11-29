@@ -1,14 +1,12 @@
 
 from scripts.bases.base import Base
 from scripts.bases.window_objects.rect_base import RectBase
-#from kivy.graphics.context_instructions import Color
-#from kivy.graphics.vertex_instructions import Rectangle	
 
 
 class MultiRectBase(Base):
 	""" Contains a tuple of unordered RectBase
 			It is up to the children how to format the rectangles
-				This class provides utils for bulk resize, show, hide and remove """	
+				This class provides utils for bulk resize, show, hide and remove """
 	def __init__(self, game, window, color=(1,1,1,1), num_rects=2, size=(100,100), pos=(0,0), offset=0, hide=False):
 	
 		super().__init__(game=game)
@@ -32,7 +30,7 @@ class MultiRectBase(Base):
 		if hide:
 			self.hide()
 			
-	#<----Base Functions: re_init, update			
+	#<----Base Functions: re_init, update
 	def re_init(self):
 		super().re_init()
 		

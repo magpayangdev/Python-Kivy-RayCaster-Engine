@@ -16,7 +16,7 @@ _game_textures = {}
 _image_sequences = {}
 
 
-_g_textures = [None,]
+_g_textures = [None,None,]
 
 _container_paths_pair = (
 						(_controller_icons, PATH_CONTROLLER_ICONS), 
@@ -30,6 +30,8 @@ _container_paths_pair = (
 
 _container_paths_iter = (entry for entry in _container_paths_pair)
 
+def blank_texture():
+	return _g_textures[1]
 									   
 def flr_texture():
 	return _g_textures[0]

@@ -18,13 +18,10 @@ class LeftController(Controller):
 	def stop_counting(self):
 		super().stop_counting()
 		
-	def flip(self):
-		super().flip()
+	def flip_func(self):		
+		super().flip_func()
 		
-		if self.accum_time < 1:			
-			self.game.minimap.flip()
-			
-			self.stop_counting()
+		self.game.minimap.flip()
 		
 	#<----Rectangle Functions: re_size, show, hide, remove
 	def re_size(self):
@@ -62,12 +59,10 @@ class RightController(Controller):
 	def stop_counting(self):
 		super().stop_counting()
 		
-	def flip(self):
-		super().flip()
+	def flip_func(self):	
+		super().flip_func()	
 		
-		if self.accum_time < 1:
-			self.game.hud.player_sprite.attack()
-			self.stop_counting()
+		self.game.hud.player_sprite.attack()
 		
 	#<----Rectangle Functions: re_size, show, hide, remove
 	def re_size(self):

@@ -6,7 +6,7 @@
 
 # UNIQUE Keys,# Game Mode 1,# Game Mode 2
 # player,# player,# player
-player_pos_x,1.5,3.5
+player_pos_x,1.5,1.5
 player_pos_y,1.5,1.5
 player_angle,-1.57,-1.57
 player_radius,0.25,0.25
@@ -28,7 +28,7 @@ pause_start,pause_start.wav,pause_start.wav
 theme,theme.mp3,theme_2.mp3
 
 # map,,
-map_path,resources/maps/arena_map.txt,resources/maps/xbackrooms_map.txt
+map_path,resources/maps/arena_map.txt,resources/maps/backrooms_map.txt
 
 # sky |save sky textures here: resources/textures/sky/ | dont forget to include the '.png' file extension
 sky_path,cloudy_sky.png,dark_night_sky.png

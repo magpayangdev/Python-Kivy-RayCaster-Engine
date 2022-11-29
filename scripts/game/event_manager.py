@@ -89,6 +89,7 @@ class EventManager:
 		self.game.secondary_loop._accum_time = 0
 		self.game.tc_mngr.remove_current_card()
 		self.game.player.re_init()
+		self.game.hud.re_init()
 		
 		Clock.unschedule(self.game.tick)
 		self.game.tick = Clock.schedule_interval(self.game.primary_loop.update, 0)
@@ -128,7 +129,7 @@ class EventManager:
 		self.game.audio.hit()
 		
 	def sprite_has_died(self, sprt):
-		self.game.player.add_to_kill_list(sprt.init_img_seq_id)
+		self.game.player.add_to_kill_list(sprt.img_seq_id)
 
 		if self.game.sprite_space.remaining_sprites() == 0:
 			self.game.hud.victory()

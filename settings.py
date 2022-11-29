@@ -11,7 +11,7 @@ game=None
 """ Screen """
 _screen_width, _screen_height = 0, 0
 _half_screen_width = 0
-_half_screen_height= 0
+_half_screen_height = 0
 _screen_element_width = 0
 
 """ Debug """
@@ -47,7 +47,7 @@ M_270_DEGREES = -P_270_DEGREES
 M_360_DEGREES = -P_360_DEGREES
 
 """ Map """
-MAP_SIZE = 2 #[1-takes entire screen, 2-half the screen height, and so on..]
+MAP_SIZE = 1 #[1-takes entire screen, 2-half the screen height, and so on..]
 BLOCK_OFFSET = 5
 NUMBER_OF_BLOCKS_ACROSS = 15
 NUMBER_OF_BLOCKS_DOWN = NUMBER_OF_BLOCKS_ACROSS

@@ -14,7 +14,7 @@ def idle_animation(npc):
 		npc.rect.texture = next(npc.idle_i_seq)
 
 	except StopIteration:
-		npc.idle_i_seq = (image for image in get_image_sequence(npc.init_img_seq_id))
+		npc.idle_i_seq = (image for image in get_image_sequence(npc.img_seq_id))
 		npc.rect.texture = next(npc.idle_i_seq)
 
 def default_state_machine(npc):
@@ -37,7 +37,7 @@ def default_state_machine(npc):
 		except StopIteration:				
 			npc.event.sprite_hit()
 			
-			npc.hit_i_seq = (image for image in get_image_sequence(npc.init_img_seq_id, 'hit'))
+			npc.hit_i_seq = (image for image in get_image_sequence(npc.img_seq_id, 'hit'))
 			npc.rect.texture = next(npc.hit_i_seq)
 			npc.current_action = 'walking'
 
@@ -55,7 +55,7 @@ def default_state_machine(npc):
 			npc.rect.texture = next(npc.walk_i_seq)
 			
 		except StopIteration:
-			npc.walk_i_seq = (image for image in get_image_sequence(npc.init_img_seq_id, 'walk'))
+			npc.walk_i_seq = (image for image in get_image_sequence(npc.img_seq_id, 'walk'))
 			npc.rect.texture = next(npc.walk_i_seq)
 			
 	elif npc.current_action == 'attack':				   #<---- Attack Anim
@@ -66,7 +66,7 @@ def default_state_machine(npc):
 		except StopIteration:
 			npc.event.sprite_attack(npc)				
 
-			npc.atk_i_seq  = (image for image in get_image_sequence(npc.init_img_seq_id, 'attack'))
+			npc.atk_i_seq  = (image for image in get_image_sequence(npc.img_seq_id, 'attack'))
 			npc.rect.texture = next(npc.atk_i_seq)
 			
 	elif npc.current_action == 'for delete':

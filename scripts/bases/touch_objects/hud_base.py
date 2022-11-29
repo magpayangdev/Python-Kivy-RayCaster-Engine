@@ -103,7 +103,6 @@ class HudBase(QuadrantTouchObject):
 		self.hit_rect.re_init()
 						
 	def update(self, dt):
-		#super().update(dt)
 		pass
 	
 	#<----Hud Functions
@@ -197,7 +196,7 @@ class HudBase(QuadrantTouchObject):
 	def touch_up_q1(self, touch):
 		super().touch_up_q1(touch)
 		
-		self.left_controller.re_position_rect()
+		self.left_controller.reset_stick()
 		self.game.player.forward_dir = 0
 		self.game.player.right_dir = 0
 		self.left_controller.flip()
@@ -205,19 +204,19 @@ class HudBase(QuadrantTouchObject):
 	def touch_up_q2(self, touch):
 		super().touch_up_q2(touch)
 		
-		self.left_controller.re_position_rect()
+		self.left_controller.reset_stick()
 		self.game.player.forward_dir = 0
 		self.game.player.right_dir = 0
 		
 	def touch_up_q3(self, touch):
 		super().touch_up_q3(touch)
 		
-		self.right_controller.re_position_rect()
+		self.right_controller.reset_stick()
 		self.game.player.yaw = 0
 		self.right_controller.flip()
 		
 	def touch_up_q4(self, touch):
 		super().touch_up_q4(touch)
 		
-		self.right_controller.re_position_rect()
+		self.right_controller.reset_stick()
 		self.game.player.yaw = 0

@@ -2,6 +2,7 @@
 from scripts.bases.window_objects.window_object import WindowObject
 from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Rectangle	
+#from scripts.modules.textures import *
 
 	
 class RectBase(WindowObject):
@@ -18,7 +19,7 @@ class RectBase(WindowObject):
 		self.in_cnvs = False
 		with self.window.canvas:
 			self.colour = Color(rgba=self.init_color)
-			self.rect = Rectangle(size=self.init_size, pos=self.init_pos)
+			self.rect = Rectangle(size=self.init_size, pos=self.init_pos, texture=None)
 			self.in_cnvs = True
 			
 		if hide:
@@ -67,6 +68,7 @@ class RectBase(WindowObject):
 		self.color = self.init_color
 		self.size = self.init_size
 		self.pos = self.init_pos
+		self.texture = None
 		
 	def update(self,dt):
 		super().update(dt)

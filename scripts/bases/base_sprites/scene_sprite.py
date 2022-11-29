@@ -29,7 +29,7 @@ class SceneSprite(TimedImageSequence):
 		self.pos_x, self.pos_y = world_pos[0], world_pos[1]
 		
 		#<----Projection Constants
-		sample_texture = get_image_sequence(self.init_img_seq_id)[0]
+		sample_texture = get_image_sequence(self.img_seq_id)[0]
 		self.IMAGE_RATIO = sample_texture.width / sample_texture.height
 		self.SCALE_FACTOR = scale * screen_distance()	
 		

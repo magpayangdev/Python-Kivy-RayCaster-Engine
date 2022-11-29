@@ -13,8 +13,8 @@ class TimedImageSequence(TimedUpdate):
 	#<----Sequence Textured Rect Functions
 	#<----Getters
 	@property
-	def init_img_seq_id(self):
-		return self.sequence_textured_rect.init_img_seq_id
+	def img_seq_id(self):
+		return self.sequence_textured_rect.img_seq_id
 	
 	@property
 	def window(self):
@@ -109,8 +109,8 @@ class TimedImageSequence(TimedUpdate):
 	def reload_texture(self):
 		self.sequence_textured_rect.reload_texture()
 		
-	def change_mode(self, new_mode):
-		self.sequence_textured_rect.change_mode(new_mode)	
+	#def change_mode(self, new_mode):
+		#self.sequence_textured_rect.change_mode(new_mode)	
 
 
 		
