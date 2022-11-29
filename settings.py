@@ -2,7 +2,6 @@
 settings
 """
 import math
-#from kivy.graphics.texture import Texture
 
 
 """ References """
@@ -124,7 +123,7 @@ _controller_stick_size = 0.0, 0.0
 EMPTY_PATH = ''
 
 USER_CONFIG_PATH = 'user_config.csv'
-WORLD_OBJECTS_LIST = 'world_objects_list.csv'
+#WORLD_OBJECTS_LIST = 'world_objects_list.csv'
 
 AUDIO_PATHS = 'scripts/resources/audio','resources/sound/'
 

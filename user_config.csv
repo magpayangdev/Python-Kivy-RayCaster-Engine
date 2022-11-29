@@ -30,5 +30,8 @@ theme,theme.mp3,theme_2.mp3
 # map,,
 map_path,resources/maps/arena_map.txt,resources/maps/backrooms_map.txt
 
+# objects
+objects_positions,resources/objects/arena_objects.csv,resources/objects/backrooms_objects.csv
+
 # sky |save sky textures here: resources/textures/sky/ | dont forget to include the '.png' file extension
 sky_path,cloudy_sky.png,dark_night_sky.png

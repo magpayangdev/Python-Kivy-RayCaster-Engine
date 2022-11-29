@@ -1,0 +1,4 @@
+Sprite_Class,Sprite_Id,Pos_X,Pos_Y
+#static_sprite,candle_bra,1.5,1.25
+#animated_sprite,flame,1.5,2.0
+#npc_sprite,soldier,1.5,1.5

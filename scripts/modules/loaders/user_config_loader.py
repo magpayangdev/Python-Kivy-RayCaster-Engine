@@ -32,11 +32,11 @@ def get_config():
 	return "Reading Config File: {}".format(_user_config_path)
 		
 def get_kwargs():
-	if _game.mode == 'mode 1':
-		_game.kw_args = {key: _config_dict.get(key)[0] for key in _config_dict}
+	#if _game.mode == 'mode 1':
+	_game.kw_args = {key: _config_dict.get(key)[_game.mode - 1] for key in _config_dict}
 
-	elif _game.mode == 'mode 2':
-		_game.kw_args = {key: _config_dict.get(key)[1] for key in _config_dict}
+	#elif _game.mode == 'mode 2':
+	#	_game.kw_args = {key: _config_dict.get(key)[1] for key in _config_dict}
 		
 	return "Setting Config KV Pair"
 		

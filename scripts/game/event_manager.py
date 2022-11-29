@@ -91,13 +91,23 @@ class EventManager:
 		self.game.player.re_init()
 		self.game.hud.re_init()
 		
+		"""
 		Clock.unschedule(self.game.tick)
 		self.game.tick = Clock.schedule_interval(self.game.primary_loop.update, 0)
 		self.game.loop_num = 1
 
 		self.game.audio.theme.play()
 		self.game.sprite_space.reload_sprites()
-		#self.game.sprite_space.show()
+		"""		
+		
+		Clock.unschedule(self.game.tick)
+		self.game.tick = Clock.schedule_interval(self.game.pre_primary_loop.update, 0)
+		self.game.loop_num = 0
+		
+		#self.game.l_screen.remove()
+	
+		self.game.tc_mngr.show_menu_card()	
+		self.game.audio.play_theme()
 
 		
 	#<---- Player Events
@@ -115,7 +125,13 @@ class EventManager:
 	def player_has_died(self):
 		self.game.audio.theme.stop()
 		self.game.hud.game_over()
-		loop.start_secondary_loop()
+		
+		self.game.hud.game_over()
+			
+		Clock.unschedule(self.game.tick)
+		self.game.tick = Clock.schedule_interval(self.game.secondary_loop.update, 0)
+		self.game.loop_num = 2			
+
 		
 	def player_health_updated(self):
 		self.game.hud.player_health.flip(self.game.player.health)

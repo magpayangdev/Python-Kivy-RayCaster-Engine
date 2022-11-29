@@ -9,9 +9,12 @@ class LoadingScreen(WindowObject):
 	def __init__(self, game, window=None, **kwargs):
 		super().__init__(game=game, window=window)
 		
-		self.rect_comp = RectBase(game=game, window=window, color=(0.5, 0.3, 0.2, 1), size=self.window.size, pos=self.window.pos, hide=False)
+		color = kwargs.get('color')
+		font_size = kwargs.get('font_size')
+	
+		self.rect_comp = RectBase(game=game, window=window, color=color, size=self.window.size, pos=self.window.pos, hide=False)
 		
-		self.text_comp = TextBase(game=game, window=window, text='')
+		self.text_comp = TextBase(game=game, window=window, text='', font_size = font_size)
 		
 	#<----Getters
 	@property

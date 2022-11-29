@@ -16,7 +16,8 @@ class MainWindow(FloatLayout):
 		super(MainWindow, self).__init__(**kwargs)				
 
 		self.bind(size=self.re_init, pos=self.re_init)
-		self.game_mode = GameMode(window=self, mode='mode 2')
+		self.game_mode = GameMode(window=self, mode=1)
+		""" mode numbers: 1, 2 """
 
 	def re_init(self, instance, *args): 
 		self.game_mode.re_init()

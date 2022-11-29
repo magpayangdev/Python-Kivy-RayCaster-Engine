@@ -1,6 +1,7 @@
 """
 """
 
+from kivy.graphics.texture import Texture
 from settings import *
 import os
 
@@ -16,7 +17,7 @@ _game_textures = {}
 _image_sequences = {}
 
 
-_g_textures = [None,None,]
+#_g_textures = [None,None,]
 
 _container_paths_pair = (
 						(_controller_icons, PATH_CONTROLLER_ICONS), 
@@ -30,19 +31,41 @@ _container_paths_pair = (
 
 _container_paths_iter = (entry for entry in _container_paths_pair)
 
-def blank_texture():
-	return _g_textures[1]
-									   
 def flr_texture():
-	return _g_textures[0]
-
-"""
+	texture = None
+		
 	_size = 64 * 64 * 4
 	_buf_floor = [255 - int(x * 255 / _size) for x in range(_size)]
-	_ = Texture.create(size=(64,64))
-	_.blit_buffer(bytes(_buf_floor), colorfmt='rgba', bufferfmt='ubyte')
-	return _
-"""
+	texture = Texture.create(size=(64,64))
+	texture.blit_buffer(bytes(_buf_floor), colorfmt='rgba', bufferfmt='ubyte')
+
+	return texture
+									   
+def blank_texture():
+	texture = None
+	
+	_size = 64 * 64 *4
+	_buf = [255 for x in range(_size)]
+	texture = Texture.create(size=(64, 64))
+	texture.blit_buffer(bytes(_buf), colorfmt='rgba', bufferfmt='ubyte')
+	
+	return texture
+	
+def backrooms_texture():
+	texture = None
+	_size = 64 * 64 * 4
+	_buf = []
+	
+	for x in range(_size):
+		if x % 4 == 2:
+			_buf.append(0)
+		else:
+			_buf.append(int(150 * x / _size))
+			
+	texture = Texture.create(size=(64, 64))
+	texture.blit_buffer(bytes(_buf), colorfmt='rgba', bufferfmt='ubyte')
+	
+	return texture
 	
 def get_sky_texture(str):
 	return _sky_textures.get(str, _sky_textures.get("default_sky.png"))

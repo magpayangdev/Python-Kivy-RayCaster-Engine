@@ -15,7 +15,7 @@ class SceneSpritesContainer(SpritesContainer):
 		self.o_s = []
 		self.load_list = []
 
-		loader.init(self.load_list)						
+		loader.init(self.game, self.load_list)						
 		
 	def reload_sprites(self):
 		self.c_t_s = None		

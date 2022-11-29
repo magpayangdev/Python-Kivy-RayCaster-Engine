@@ -6,7 +6,7 @@ from kivy.clock import Clock
 from scripts.modules.loaders import auto_loader_module as lsa
 
 class GameMode:
-	def __init__(self, window, mode='mode 1'):
+	def __init__(self, window, mode=1):
 		self.mode = mode
 		self.tick = None
 		
@@ -34,7 +34,7 @@ class GameMode:
 		self.primary_loop = None
 		self.sprite_space = None
 		
-		self.ls_kwargs = {'color':(0.3,0.5,0.5, 1),'text':'L Screen','font_size':30}
+		self.ls_kwargs = {'color':(0.2,0.5,0.6, 1),'text':'L Screen','font_size':30}
 		
 		self.start_loading()
 

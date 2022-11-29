@@ -1,5 +1,6 @@
 
 from scripts.bases.timed_updates.timed_texture import TimedTexture
+from scripts.modules.textures import *
 from settings import *
 import math
 
@@ -11,6 +12,9 @@ class Sky(TimedTexture):
 
 		self.rect_size = self.game.window.width, self.game.window.height/2
 		self.rect_pos = self.game.window.pos[0], self.game.window.height/2
+		
+		if self.game.mode == 2:
+			self.rect_texture = backrooms_texture()
 
 	#<----Base Functions: re_init, update
 	def re_init(self):

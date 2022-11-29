@@ -1,17 +1,22 @@
 
 import os
 import csv
-#from scripts.scene_objects.sprite_scripts.sprite import *
 from scripts.screen_objects.sprites import *
-from settings import *
+#from settings import *
 
 _DEFAULT_PATH = 'scripts/scene_objects/resources/docs/default_sprites_list.csv'
+_game_ref = None
 
-def init(load_list):
+def init(game_ref, load_list):
+	global _game_ref
+
+	_game_ref = game_ref	
 	file_name = _DEFAULT_PATH
 	
-	if os.path.isfile(WORLD_OBJECTS_LIST):
-		file_name = WORLD_OBJECTS_LIST
+	object_load_path = _game_ref.kw_args['objects_positions']
+	
+	if os.path.isfile(object_load_path):
+		file_name = object_load_path
 
 	with open(file_name, newline='') as f:
 		f_reader = csv.reader(f)
