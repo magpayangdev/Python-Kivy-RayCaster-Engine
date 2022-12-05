@@ -2,48 +2,28 @@
 from scripts.bases.window_objects.rect_base import RectBase
 from scripts.modules.textures import *
 
+
+_IMG_NAME, _IMG_CATEGORY = 'python.png', 'game'
+_COLOR, _SIZE, _POS, _HIDE = (1,1,1,1), (100,100), (0,0), False
+
+
 class TexturedRect(RectBase):
-	def __init__(self, game, window, image_name, image_category, color, size, pos, hide=False):
-		super().__init__(game=game, window=window, color=color, size=size, pos=pos, hide=hide)
+	def __init__(self, game, window, image_name=_IMG_NAME, image_category=_IMG_CATEGORY, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, **kwargs):
+		super().__init__(game=game, window=window, size=size, pos=pos, color=color, hide=hide)
 		
 		self.image_name = image_name
 		self.image_category = image_category
-		
-		self.texture=None	
-		if self.image_category == 'sky':
-			self.texture=get_sky_texture(self.image_name)
-			
-		elif self.image_category == 'controller':
-			self.texture=get_controller_texture(self.image_name)
-			
-		elif self.image_category == 'wall':
-			self.texture=get_wall_texture(self.image_name)
-			
-		elif self.image_category == 'map':
-			self.texture=get_map_texture(self.image_name)
-			
-		elif self.image_category == 'digit':
-			self.texture=get_digit_texture(self.image_name)
-			
-		elif self.image_category == 'menu':
-			self.texture=get_menu_texture(self.image_name)
-			
-		elif self.image_category == 'game':
-			self.texture=get_game_texture(self.image_name)
-			
-		elif self.image_category == 'floor':
-			self.texture=flr_texture()
-			
-		else:
-			raise Exception('Invalid	 image_category')
-			
-		self.rect.texture=self.texture
+		self.rect.texture = get_texture(self.image_name, self.image_category)
 
 	#<----Base Functions: re_init, update			
-	def re_init(self):
-		super().re_init()
+	def re_init(self, image_name=_IMG_NAME, image_category=_IMG_CATEGORY, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, **kwargs):
+		super().re_init(size=size, pos=pos, color=color, hide=hide)
 		
-	def update(self,dt):
+		self.image_name = image_name
+		self.image_category = image_category
+		self.rect.texture = get_texture(self.image_name, self.image_category)
+		
+	def update(self, dt):
 		super().update(dt)
 		
 	#<----Rectangle Functions: re_size, show, hide, remove

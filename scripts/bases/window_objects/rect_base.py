@@ -1,25 +1,24 @@
 
 from scripts.bases.window_objects.window_object import WindowObject
 from kivy.graphics.context_instructions import Color
-from kivy.graphics.vertex_instructions import Rectangle	
-#from scripts.modules.textures import *
+from kivy.graphics.vertex_instructions import Rectangle
+
+
+_COLOR, _SIZE, _POS, _HIDE = (1,1,1,1), (100,100), (0,0), False
 
 	
 class RectBase(WindowObject):
-	""" The base class for all objects that requires a color and rectangle instruction """
-	def __init__(self, game, window, color=(1,1,1,1), size=(100,100), pos=(0,0), hide=False):
+	""" The base class for all objects that requires a color and rectangle instruction """	
+	def __init__(self, game, window, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, **kwargs):
 		super().__init__(game=game, window=window)
 		
-		self.init_color = color
-		self.init_size = size
-		self.init_pos = pos
-		
-		self.colour = None
 		self.rect = None
+		self.colour = None
 		self.in_cnvs = False
+		
 		with self.window.canvas:
-			self.colour = Color(rgba=self.init_color)
-			self.rect = Rectangle(size=self.init_size, pos=self.init_pos, texture=None)
+			self.colour = Color(rgba=color)
+			self.rect = Rectangle(size=size, pos=pos, texture=None)
 			self.in_cnvs = True
 			
 		if hide:
@@ -62,13 +61,23 @@ class RectBase(WindowObject):
 		self.rect.pos = value		
 	
 	#<----Base Functions: re_init, update			
-	def re_init(self):
+	def re_init(self, size=_SIZE, pos=_POS, color=_COLOR, hide=_HIDE, **kwargs):
 		super().re_init()
 		
-		self.color = self.init_color
-		self.size = self.init_size
-		self.pos = self.init_pos
-		self.texture = None
+		self.color = color
+		self.size = size
+		self.pos = pos
+
+		if hide:
+			if self.in_cnvs:
+				self.window.canvas.remove(self.colour)
+				self.window.canvas.remove(self.rect)
+				self.in_cnvs = False
+		else:
+			if not self.in_cnvs:
+				self.window.canvas.add(self.colour)
+				self.window.canvas.add(self.rect)
+				self.in_cnvs = True
 		
 	def update(self,dt):
 		super().update(dt)

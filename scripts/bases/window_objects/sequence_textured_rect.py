@@ -2,20 +2,29 @@
 from scripts.bases.window_objects.rect_base import RectBase
 from scripts.modules.textures import *
 
+_IMG_SEQ_ID, _INIT_MODE = 'python.png', 'game'
+_COLOR, _SIZE, _POS, _HIDE = (1,1,1,1), (100,100), (0,0), False
+
+
 class SequenceTexturedRect(RectBase):
-	def __init__(self, game, window, img_seq_id, initial_mode, color=(1,1,1,1), size=(100,100), pos=(0,0), hide=False):	
+	def __init__(self, game, window, img_seq_id=_IMG_SEQ_ID, initial_mode=_INIT_MODE, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, **kwargs):	
 		super().__init__(game=game, window=window, color=color, size=size, pos=pos, hide=hide)		
-		self.init_mode = initial_mode
+		
 		self.img_seq_id = img_seq_id
+		self.init_mode = initial_mode
 
 		self.seq_texture = (image for image in get_image_sequence(self.img_seq_id, self.init_mode))
 		self.rect.texture = next(self.seq_texture)
 
 	#<----Base Functions: re_init, update			
-	def re_init(self):
-		super().re_init()
+	def re_init(self, img_seq_id=_IMG_SEQ_ID, initial_mode=_INIT_MODE, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, **kwargs):
+		super().re_init(color=color, size=size, pos=pos, hide=hide)
 
-		self.reload_texture()
+		self.img_seq_id = img_seq_id
+		self.init_mode = initial_mode
+
+		self.seq_texture = (image for image in get_image_sequence(self.img_seq_id, self.init_mode))
+		self.rect.texture = next(self.seq_texture)
 		
 	def update(self,dt):
 		super().update(dt)
@@ -38,38 +47,3 @@ class SequenceTexturedRect(RectBase):
 
 		self.seq_texture = (image for image in get_image_sequence(self.img_seq_id, self.init_mode))
 		self.rect.texture = next(self.seq_texture)
-		
-	#def change_mode(self, new_mode):
-		#self.init_mode = new_mode
-		#self.reload_texture()
-		
-		#self.seq_texture = (image for image in get_image_sequence(self.img_seq_id, new_mode))
-		#self.rect.texture = next(self.seq_texture)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

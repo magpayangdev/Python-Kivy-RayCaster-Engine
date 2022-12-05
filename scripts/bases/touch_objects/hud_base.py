@@ -1,7 +1,7 @@
 
-from scripts.screen_objects.health_indicators import DefautlHealthIndicator as HealthIndicator
+from scripts.screen_objects.health_indicators import DefaultHealthIndicator as HealthIndicator
 from scripts.bases.touch_objects.quadrant_touch_object import QuadrantTouchObject
-from scripts.screen_objects.controller import LeftController, RightController
+from scripts.screen_objects.controllers import LeftController, RightController
 from scripts.screen_objects.player_sprites import DefaultPlayerSprite
 from scripts.bases.window_objects.button_base import ButtonBase
 from scripts.bases.window_objects.text_base import TextBase
@@ -20,9 +20,9 @@ class HudBase(QuadrantTouchObject):
 		self.button_size = 250, 100
 		f = lambda x,y: (self.window.width - x / 2, self.window.height - y / 2)
 		
-		exit_button_kwargs = {'game':self.game, 'window':self.window, 'hide':True, 'text':'EXIT', 'background_color':(0,0,0,1), 'font_name':'AdventureRequest', 'font_size':50, 'text_color':(1,1,1,1), 'size':self.button_size, 'pos':f(*self.button_size), 'callback':self.exit_game}
-		
-		debug_label_kwargs = {'game':self.game, 'window':self.window, 'text':'Label Text', 'font_name':'Modenine', 'halign':'center', 'valign':'top', 'font_size':100,  'text_color':(1,0,0,1), 'text_size':self.window.size, 'padding_x':0, 'padding_y':0, 'hide':True}
+		self.eb_kwargs = {'game':self.game, 'window':self.window, 'callback':self.exit_game, 'text':'EXIT', 'bg_color':(1,1,1,1), 'font_name':'AdventureRequest', 'font_size':75, 'text_color':(1,1,1,1), 'size':self.button_size, 'pos':f(*self.button_size), 'hide':True}
+	
+		self.debug_label_kwargs = {'game':self.game, 'window':self.window, 'text':'Label Text', 'font_name':'AdventureRequest', 'halign':'center', 'valign':'top', 'font_size':75,  'text_color':(1,0,0,1), 'text_size':self.window.size, 'padding_x':0, 'padding_y':0, 'hide':True}
 		
 		self.left_xypad_active = False
 		self.right_xypad_active = False
@@ -31,8 +31,8 @@ class HudBase(QuadrantTouchObject):
 		self.left_controller = LeftController(self.game)
 		self.right_controller = RightController(self.game)
 		self.player_health = HealthIndicator(self.game)
-		self.hud_text = TextBase(**debug_label_kwargs)		
-		self.exit_button = ButtonBase(**exit_button_kwargs)
+		self.hud_text = TextBase(**self.debug_label_kwargs)		
+		self.exit_button = ButtonBase(**self.eb_kwargs)	
 		self.hit_rect = HitRect(self.game)
 		
 		
@@ -44,10 +44,6 @@ class HudBase(QuadrantTouchObject):
 	def text(self, value):
 		self.hud_text.text = value
 		
-	#<----Events
-	def exit_game(self, *args):
-		self.game.event.exit_game()
-		
 	#<----Window Functions
 	def re_size(self):
 		pass
@@ -58,8 +54,7 @@ class HudBase(QuadrantTouchObject):
 		self.right_controller.show()
 		self.player_health.show()
 		self.exit_button.show()
-		self.hud_text.show()
-		
+		self.hud_text.show()		
 		self.hit_rect.show()
 		
 	def hide(self):
@@ -98,14 +93,17 @@ class HudBase(QuadrantTouchObject):
 		self.left_controller.re_init()
 		self.right_controller.re_init()
 		self.player_health.re_init()
-		self.hud_text.re_init()		
-		self.exit_button.re_init()
+		self.hud_text.re_init(**self.debug_label_kwargs)		
+		self.exit_button.re_init(**self.eb_kwargs)
 		self.hit_rect.re_init()
 						
 	def update(self, dt):
 		pass
 	
 	#<----Hud Functions
+	def exit_game(self, *args):
+		self.game.event.exit_game()
+		
 	def reset_hud(self):
 		self.hit_rect.color = 1,1,1,0
 		

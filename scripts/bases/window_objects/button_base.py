@@ -1,35 +1,82 @@
 
-# kwargs = {'game':self.game, 'window':self.window, 'hide':True, 'text':'EXIT', 'background_color':(0,0,0,1), 'font_name':'AdventureRequest', 'font_size':50, 'text_color':(1,1,1,1), 'size':self.button_size, 'pos':f(*self.button_size), 'callback':None}
-
 from kivy.uix.button import Button
 from scripts.bases.window_objects.window_object import WindowObject
 
-class ButtonBase(WindowObject):
-	def __init__(self, game, window, hide=False, text='BUTTON', background_color=(0,0,0,1), font_name='AdventureRequest', font_size=100, text_color=(1,1,1,1), size=(100,100), pos=(0,0), callback=None):
-		super().__init__(game=game,window=window)
-		
-		#self.on_press_cb = None
-		#self.on_release_cb = None
-		
-		self.init_text = text
-		self.init_text_color = text_color
+_TEXT, _FONT_NAME, _FONT_SIZE = 'BUTTON', 'Modenine', (100,100) 
+_BG_COLOR, _TEXT_COLOR, _SIZE, _POS = (1,1,1,0), (1,1,1,1), (100,100), (0,0)
+_EXTERNAL_CALLBACK, _HIDE = None, False
 
-		self.init_size = (size[0] / self.window.width, size[1] / self.window.height)
-		self.init_pos = (pos[0] - size[0] / 2, pos[1] - size[1] / 2)
+
+class ButtonBase(WindowObject):
+	def __init__(self, game, window, callback= _EXTERNAL_CALLBACK, text=_TEXT, bg_color=_BG_COLOR, font_name=_FONT_NAME, font_size=_FONT_SIZE, text_color=_TEXT_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, **kwargs):
+		super().__init__(game=game, window=window)
 			
-		self.button = Button(text=text, background_color=background_color, font_name=font_name, font_size=font_size, color=text_color, size_hint=self.init_size, pos=self.init_pos)
-		
-		if callback:
+		self.button = Button()
+
+		self.text = text
+		self.font_name = font_name
+		self.font_size = font_size
+		self.text_color = text_color
+		self.background_color = bg_color
+		self.size = size
+		self.pos = pos
+
+		if callback:		
 			self.button.bind(state=callback)
-		
-		if hide:
-			self.window.remove_widget(self.button)
-			self.in_cnvs=False
 		else:
-			self.window.add_widget(self.button)
-			self.in_cnvs=True
+			self.button.bind(state=self.button_callback)
+			
+		if hide:
+			if self.in_cnvs:
+				self.window.remove_widget(self.button)
+				self.in_cnvs=False
+		else:
+			if not self.in_cnvs:
+				self.window.add_widget(self.button)
+				self.in_cnvs=True
+
+	#<----Button Funcs
+	def button_callback(self, instance, state):
+		if state == 'down':
+			self.button_down(instance)
+			
+		elif state == 'normal':
+			self.button_normal(instance)
+			
+		else:
+			raise Exception('Invalid button state: {}'.format(state))
+			
+	def button_down(self, instance):
+		pass
+		
+	def button_normal(self, instance):
+		pass
+
+	def does_collide(self, touch):
+		return self.button.collide_point(*touch.pos)
 				
-	#<----Properties Button		
+	#<----Properties Button
+	#property
+	@property
+	def background_color(self):
+		return self.button.background_color
+		
+	@background_color.setter
+	def background_color(self, value):
+		self.button.background_color = value
+		
+	@property
+	def font_name(self):
+		return self.button.font_name
+		
+	@property
+	def font_size(self):
+		return self.button.font_size
+
+	@property
+	def text_color(self):
+		return self.button.color
+				
 	@property
 	def callback(self):
 		return None
@@ -56,6 +103,18 @@ class ButtonBase(WindowObject):
 		return self.button.pos
 		
 	#<----Setters
+	@font_name.setter
+	def font_name(self, value):
+		self.button.font_name = value
+
+	@font_size.setter
+	def font_size(self, value):
+		self.button.font_size = value
+
+	@text_color.setter
+	def text_color(self, value):
+		self.button.color = value
+		
 	@callback.setter
 	def callback(self, value):
 		self.button.bind(state=value)
@@ -64,7 +123,6 @@ class ButtonBase(WindowObject):
 	def state(self, value):
 		if value in ('normal','down'):
 			self.button.state = value
-			
 		else:
 			raise Exception('Invalid button state {}'.format(value))
 			
@@ -81,22 +139,37 @@ class ButtonBase(WindowObject):
 	def pos(self, value):
 		f = lambda x,y: (x - self.size[0] / 2, y - self.size[1] / 2)
 		self.button.pos = f(*value)
-		
-	#<----Button Funcs
-	def does_collide(self, touch):
-		return self.button.collide_point(*touch.pos)
 					
 	#<----Base Functions: re_init, update			
-	def re_init(self):
+	def re_init(self, callback=_EXTERNAL_CALLBACK, text=_TEXT, bg_color=_BG_COLOR, font_name=_FONT_NAME, font_size=_FONT_SIZE, text_color=_TEXT_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, **kwargs):
 		super().re_init()
 		
-		self.button.text = self.init_text
-		self.button.text_color = self.init_text_color
-		self.button.size_hint = self.init_size
-		self.button.pos = self.init_pos
+		self.text = text
+		self.font_name = font_name
+		self.font_size = font_size
+		self.text_color = text_color
+		self.background_color = bg_color
+		self.size = size
+		self.pos = pos
+
+		if callback:		
+			self.button.bind(state=callback)
+		else:
+			self.button.bind(state=self.button_callback)
+			
+		if hide:
+			if self.in_cnvs:
+				self.window.remove_widget(self.button)
+				self.in_cnvs=False
+		else:
+			if not self.in_cnvs:
+				self.window.add_widget(self.button)
+				self.in_cnvs=True
+				
 		
 	def update(self,dt):
 		super().update(dt)
+		
 		
 	#<----Window Functions: re_size, show, hide, remove
 	def re_size(self):

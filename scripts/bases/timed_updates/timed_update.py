@@ -1,28 +1,30 @@
 
 from scripts.bases.base import Base
 
+_FLIP_TIME, _START_ITER = 1, False
+
+
 class TimedUpdate(Base):
 	""" Counts elapsed time and resets counter after a specified duration """
-	def __init__(self, game, flip_time=1, start_iter=False):
+	def __init__(self, game, flip_time=_FLIP_TIME, start_iter=_START_ITER):
 		super().__init__(game=game)
-		self.init_flip_time = flip_time
-		self.init_start_iter = start_iter
+		self.flip_time = flip_time
+		self.start_iter = start_iter
 
 		self.accum_time = 0
 		self.do_once = True
 		self.loop_flag = False
-		self.flip_time = self.init_flip_time
-		self.start_iter = self.init_start_iter
 
 	#<----Base Functions: re_init, update
-	def re_init(self):
+	def re_init(self, flip_time=_FLIP_TIME, start_iter=_START_ITER):
 		super().re_init()
+		
+		self.flip_time = flip_time
+		self.start_iter = start_iter
 		
 		self.accum_time = 0
 		self.do_once = True
 		self.loop_flag = False
-		self.flip_time = self.init_flip_time
-		self.start_iter = self.init_start_iter
 		
 	def update(self, dt):
 		super().update(dt)

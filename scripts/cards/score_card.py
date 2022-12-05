@@ -5,7 +5,7 @@ from settings import *
 _bgkwargs = {'color':(0.1,0.1,0.1,0), 'size':(100,100), 'pos':(0,0)}
 _ikwargs = {'image_name':'py.png', 'image_category':'game', 'color':(1,1,1,0), 'size':(100,100), 'pos':(0,0)}
 _tkwargs = {'text':'', 'font_name':'Modenine', 'halign':'center', 'valign':'middle', 'font_size':100,  'text_color':(1,0.3,0.1,1), 'text_size':(100,100), 'padding_x':100, 'padding_y':100}
-_bkwargs = {'text':'BUTTON', 'background_color':(0,0,0,0), 'font_name':'AdventureRequest', 'font_size':100, 'text_color':(1,1,1,0), 'size':(100,100), 'pos':(0,0), 'callback':None}
+_bkwargs = {'text':'BUTTON', 'bg_color':(0,0,0,0), 'font_name':'AdventureRequest', 'font_size':100, 'text_color':(0,0,0,0), 'size':(100,100), 'pos':(1000,500), 'callback':None}
 
 
 class ScoreCard(Card):
@@ -23,6 +23,8 @@ class ScoreCard(Card):
 		self.row_list = []
 		self.line_tracker = ''
 		
+		self.enable_tick = True
+		
 		if not self.all_kills:
 			self.all_kills = {'Zero Kills' : 3}
 			f = lambda key: ('{} \" \t {}'.format(key, '0' * i) for i in range(self.all_kills[key]))
@@ -37,13 +39,13 @@ class ScoreCard(Card):
 
 	#<----Base Functions: re_init, update			
 	def re_init(self):
-		pass
+		self.enable_tick = True
 				
 	def update(self,dt):
 	
 		self.accum_time += dt
 		
-		if self.accum_time > self.flip_time:
+		if self.enable_tick and self.accum_time > self.flip_time:
 			self.accum_time = 0
 
 			try:

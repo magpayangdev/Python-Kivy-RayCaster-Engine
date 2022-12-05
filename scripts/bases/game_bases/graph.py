@@ -3,21 +3,31 @@ from scripts.bases.base import Base
 from scripts.bases.game_bases.world import World
 from scripts.modules.graph import coord_converter
 
+_WORLD_PATH = 'scripts/resources/docs/default_world_map.txt'
+
 
 class Graph(Base):
-	def __init__(self, game, world_path=''):
+	def __init__(self, game, world_path=_WORLD_PATH, **kwargs):
 		""" Contains the tree representation of the world """
 		super().__init__(game=game)
-		self.world = World(game=game, path=world_path)
+		
+		self.world = World(game=self.game, world_path=world_path)
 
-		coord_converter.init(game, self)
+		coord_converter.init(self.game, self)
 		
 		self.graph={}		
 		self.create_graph()
 		
 	#<----Base Functions: re_init, update		
-	def re_init(self):
+	def re_init(self, world_path=_WORLD_PATH, **kwargs):
 		super().re_init()
+		
+		self.world.re_init(world_path=world_path)
+		
+		coord_converter.init(self.game, self)
+		
+		self.graph={}		
+		self.create_graph()
 				
 	def update(self, dt):
 		super().update(dt)		
@@ -54,37 +64,3 @@ class Graph(Base):
 			
 			if self.is_valid_position(x, y):
 				self.graph[(x, y)] = self.graph.get((x, y), []) + f(x, y)		
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

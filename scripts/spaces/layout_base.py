@@ -1,24 +1,25 @@
 
 from kivy.uix.layout import Layout
 
+_HIDE = False
+
 class LayoutBase(Layout):
-	def __init__(self, game, hide=False, **kwargs):
+	def __init__(self, game, hide=_HIDE, **kwargs):
 		super(LayoutBase, self).__init__()
 		
 		self.game=game
 		self.in_cnvs=False
 		
-		self.game.window.add_widget(self)
-		self.in_cnvs=True
+		if not hide:
+			self.game.window.add_widget(self)
+			self.in_cnvs=True
 		
+	#<----Base Functions: re_init, update		
+	def re_init(self, hide=_HIDE):
 		if hide:
 			self.hide()
 		else:
 			self.show()
-		
-	#<----Base Functions: re_init, update		
-	def re_init(self):
-		pass
 				
 	def update(self, dt):
 		pass

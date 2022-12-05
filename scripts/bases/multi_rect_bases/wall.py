@@ -3,12 +3,13 @@ from scripts.bases.multi_rect_bases.multi_rect_base import MultiRectBase
 from scripts.modules.textures import *
 from settings import *
 
+_COLOR, _NUM_RECTS, _HIDE = (1,0,1,0), NUMBER_OF_RAYS, False
+
 class Wall(MultiRectBase):
 	""" Individual Rectangle Elements are resized, repositioned, and retextured, 
 			independently of each other, per frame """
 	def __init__(self, game, window, hide=False):
-
-		super().__init__(game, window, color=(1,1,1,1), num_rects=NUMBER_OF_RAYS, size=(100,100), pos=(0,0), offset=0, hide=hide)
+		super().__init__(game, window, num_rects=_NUM_RECTS, color=_COLOR, hide=hide)
 		
 		self.scr_rect_w = 0
 		self.half_scr_h = 0
@@ -19,15 +20,15 @@ class Wall(MultiRectBase):
 		self.scr_dist = scr_distance()
 		
 	#<----Base Functions: re_init, update			
-	def re_init(self):
-		#super().re_init() do not call super().re_init
+	def re_init(self, hide=_HIDE):
+		super().re_init(color=_COLOR, hide=hide)
 		
 		self.scr_rect_w = scr_rect_w()
 		self.half_scr_h = half_scr_h()
 		self.scr_dist = scr_distance()
 		
 	def update(self, idx, distance, P_x, P_y, angle, texture_idx, horizontal_scan=True):
-		#super().update(dt) do not call super().update
+		#DO NOT RUN SUPER ON UPDATE# super().update(dt)
 			
 		rect = self.rects[idx]
 		wt = get_wall_texture(texture_idx)
@@ -51,7 +52,7 @@ class Wall(MultiRectBase):
 		rect.rect.pos = Px, Py
 
 		if True:
-			rect.colour.rgb = c,c,c
+			rect.colour.rgba = c,c,c,1
 			rect.rect.texture = wt.get_region((wt.width - w) * o , 0, w, wt.height)
 	
 	#<----Rectangle Functions: re_size, show, hide, remove

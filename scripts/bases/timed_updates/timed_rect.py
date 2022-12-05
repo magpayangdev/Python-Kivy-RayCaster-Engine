@@ -2,9 +2,13 @@
 from scripts.bases.timed_updates.timed_update import TimedUpdate
 from scripts.bases.window_objects.rect_base import RectBase
 
+_FLIP_TIME, _START_ITER = 1, False
+_COLOR, _SIZE, _POS, _HIDE = (1,1,1,1), (100,100), (0,0), False
+
+
 class TimedRect(TimedUpdate):
-	def __init__(self, game, window, color=(1,1,1,1), size=(100,100), pos=(0,0), hide=False, flip_time=1, start_iter=False):
-		super().__init__(game, flip_time=flip_time, start_iter=start_iter)	
+	def __init__(self, game, window, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER):
+		super().__init__(game, flip_time=flip_time, start_iter=start_iter)
 		
 		self.rect_comp = RectBase(game=game, window=window, color=color, size=size, pos=pos, hide=hide)
 
@@ -46,9 +50,9 @@ class TimedRect(TimedUpdate):
 		self.rect_comp.colour.rgba = self.rect_comp.color		
 
 	#<----Base Functions: re_init, update
-	def re_init(self):
-		super().re_init()
-		self.rect_comp.re_init()
+	def re_init(self, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER):
+		super().re_init(flip_time=flip_time, start_iter=start_iter)
+		self.rect_comp.re_init(color=color, size=size, pos=pos, hide=hide)
 		
 	def update(self, dt):
 		super().update(dt)

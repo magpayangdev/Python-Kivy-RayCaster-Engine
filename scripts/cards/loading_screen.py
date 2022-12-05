@@ -3,33 +3,22 @@ from scripts.bases.window_objects.text_base import TextBase
 from scripts.bases.window_objects.rect_base import RectBase
 from scripts.bases.window_objects.window_object import WindowObject
 
+_BG_COLOR, _HIDE = (0.5,0.3,0.2,1), False
+_TEXT, _FONT_SIZE = 'Loading Screen', 30
+ 
 
 class LoadingScreen(WindowObject):
 	""" Does not inherit from Card to make loading times faster """
 	def __init__(self, game, window=None, **kwargs):
 		super().__init__(game=game, window=window)
 		
-		color = kwargs.get('color')
-		font_size = kwargs.get('font_size')
+		self.rect_comp = RectBase(game=game, window=window, size=self.window.size, pos=self.window.pos, color=_BG_COLOR, hide=_HIDE)
+		self.text_comp = TextBase(game=game, window=window, text=_TEXT, font_size=_FONT_SIZE, text_size=self.window.size)
 	
-		self.rect_comp = RectBase(game=game, window=window, color=color, size=self.window.size, pos=self.window.pos, hide=False)
-		
-		self.text_comp = TextBase(game=game, window=window, text='', font_size = font_size)
-		
-	#<----Getters
-	@property
-	def width(self):
-		return self.window.width
-		
-	@property
-	def height(self):
-		return self.window.height
-		
 	@property
 	def text(self):
 		return self.text_comp.text
-
-	#<----Setter		
+				
 	@text.setter
 	def text(self, value):
 		self.text_comp.text = value
@@ -38,12 +27,9 @@ class LoadingScreen(WindowObject):
 	def re_init(self):
 		super().re_init()
 		
-		self.rect_comp.size = self.window.size
-		self.rect_comp.pos = self.window.pos
+		self.rect_comp.re_init(size=self.window.size, pos=self.window.pos, color=_BG_COLOR)
+		self.text_comp.re_init(text=_TEXT, font_size=_FONT_SIZE, text_size=self.window.size)
 		
-		#self.rect_comp.re_init()
-		self.text_comp.re_init()
-				
 	def update(self, dt):
 		super().update(dt)
 		

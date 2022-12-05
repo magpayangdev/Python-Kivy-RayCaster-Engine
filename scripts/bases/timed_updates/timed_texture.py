@@ -1,18 +1,60 @@
 
+from scripts.modules.textures import *
 from scripts.bases.timed_updates.timed_update import TimedUpdate
 from scripts.bases.window_objects.textured_rect import TexturedRect
-from scripts.modules.textures import *
+
+_FLIP_TIME, _START_ITER = 1, False
+_IMG_NAME, _IMG_CATEGORY = 'python.png', 'game'
+_COLOR, _SIZE, _POS, _HIDE = (1,1,1,1), (100,100), (0,0), False
+_IMAGE_NAME, _IMAGE_CATEGORY, _HIDE = 'dark_night_sky.png', 'sky', False
+
 
 class TimedTexture(TimedUpdate):
-	def __init__(self, game, window, image_name, image_category, color=(1,1,1,1), size=(100,100), pos=(0,0), hide=False, flip_time=1, start_iter=False):
+	""" A TimedUpdate that spawns a TexturedRect"""
+	def __init__(self, game, window, flip_time=_FLIP_TIME, start_iter=_START_ITER, image_name=_IMAGE_NAME, image_category=_IMAGE_CATEGORY, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE):
 		super().__init__(game, flip_time=flip_time, start_iter=start_iter)
 		
 		self.rect = TexturedRect(game=game, window=window, image_name=image_name, image_category=image_category, color=color, size=size, pos=pos, hide=hide)
+		
+	#<----Rectangle properties
+	@property
+	def rect_size(self):
+		return self.rect.size
+
+	@property
+	def rect_pos(self):
+		return self.rect.pos
+		
+	@property
+	def rect_color(self):
+		return self.rect.color
+
+	@property
+	def rect_texture(self):
+		return self.rect.texture
+		
+	#<----Setter
+	@rect_size.setter
+	def rect_size(self, value):
+		self.rect.size = value
+
+	@rect_pos.setter
+	def rect_pos(self, value):
+		self.rect.pos = value
+		
+	@rect_color.setter
+	def rect_color(self, value):
+		self.rect.color = value
+		
+	@rect_texture.setter
+	def rect_texture(self, value):
+		self.rect.texture = value
 
 	#<----Base Functions: re_init, update
-	def re_init(self):
-		super().re_init()
-		self.rect.re_init()
+	def re_init(self, flip_time=_FLIP_TIME, start_iter=_START_ITER, image_name=_IMAGE_NAME, image_category=_IMAGE_CATEGORY, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE):
+		super().re_init(flip_time=flip_time, start_iter=start_iter)
+		
+		self.rect.re_init(image_name=image_name, image_category=image_category, color=color, size=size, pos=pos, hide=hide)
 		
 	def update(self, dt):
 		super().update(dt)
@@ -61,30 +103,7 @@ class TimedTexture(TimedUpdate):
 	def remove(self):
 		self.rect.remove()
 	
-	#<----Rectangle properties	
-	@property
-	def rect_size(self):
-		return self.rect.size
-		
-	@rect_size.setter
-	def rect_size(self, value):
-		self.rect.rect.size = self.rect.size = value
-		
-	@property
-	def rect_pos(self):
-		return self.rect.pos
-		
-	@rect_pos.setter
-	def rect_pos(self, value):
-		self.rect.rect.pos = self.rect.pos = value
-		
-	@property
-	def rect_texture(self):
-		return self.rect.texture
-		
-	@rect_texture.setter
-	def rect_texture(self, value):
-		self.rect.rect.texture = self.rect.texture = value
+
 		
 		
 		

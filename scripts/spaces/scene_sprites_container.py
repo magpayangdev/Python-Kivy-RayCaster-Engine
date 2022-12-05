@@ -5,9 +5,11 @@ from scripts.screen_objects.sprites import *
 from settings import *
 import random
 
+_HIDE=True
+
 
 class SceneSpritesContainer(SpritesContainer):
-	def __init__(self, game, hide=True, **kwargs):
+	def __init__(self, game, hide=_HIDE, **kwargs):
 		super().__init__(game=game, hide=hide, **kwargs)
 
 		self.c_t_s = None		
@@ -15,7 +17,7 @@ class SceneSpritesContainer(SpritesContainer):
 		self.o_s = []
 		self.load_list = []
 
-		loader.init(self.game, self.load_list)						
+		loader.init(self.game, self.load_list)	
 		
 	def reload_sprites(self):
 		self.c_t_s = None		
@@ -48,8 +50,8 @@ class SceneSpritesContainer(SpritesContainer):
 			
 	def update_sprites(self, dt):
 		for i, s in enumerate(self.all_sprites):
-			if isinstance(s, DefaultAnimatedSprite) or isinstance(s, DefaultNPCSprite):
-				s.update(dt)		
+			#if isinstance(s, DefaultAnimatedSprite) or isinstance(s, DefaultNPCSprite):
+			s.update(dt)		
 			
 	def update(self, idx, dist, r_a):		
 		if self.c_t_s and r_a < self.c_t_s.angle:
@@ -143,66 +145,12 @@ class SceneSpritesContainer(SpritesContainer):
 			if isinstance(sprt, NPCSprite) and max >= sprt.angle >= min:
 				if sprt.d_f_player < sprt.influence_range + random.uniform(0,1):
 					sprt.receive_damage(self.game.player.atk_damage)	
-
-	#<----Sprites Func Show, Remove Sprites
-	def show_sprite(self, sprite):
-		super().show_sprite(sprite)
-			
-	def hide_sprite(self, sprite):
-		super().hide_sprite()
-
-	def remove_sprite(self, sprite):
-		super().remove_sprite(sprite)
-
-	def remove_all_sprites(self):
-		super().remove_all_sprites()
-		
-	def remaining_sprites(self):
-		return super().remaining_sprites()
 		
 	#<----Base Functions: re_init, update		
-	def re_init(self):
-		super().re_init()
+	def re_init(self, hide=_HIDE):
+		super().re_init(hide)
+		
+		loader.init(self.game, self.load_list)
+
+		self.reload_sprites()
 				
-	#def update(self, dt):
-	#	super().update(dt)
-		
-	#<----Window Functions: re_size, show, hide, remove
-	def re_size(self):
-		super().re_size()
-		
-	def show(self):
-		super().show()
-				
-	def hide(self):
-		super().hide()
-		
-	def remove(self):
-		super().remove()
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

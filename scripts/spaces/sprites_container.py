@@ -2,8 +2,10 @@
 from scripts.spaces.layout_base import LayoutBase
 from scripts.screen_objects.sprites import *
 
+_HIDE=False
+
 class SpritesContainer(LayoutBase):
-	def __init__(self, game, hide=False, **kwargs):
+	def __init__(self, game, hide=_HIDE, **kwargs):
 		super().__init__(game=game, hide=hide, **kwargs)
 		
 		self.all_sprites=[]
@@ -30,8 +32,10 @@ class SpritesContainer(LayoutBase):
 		return n
 		
 	#<----Base Functions: re_init, update		
-	def re_init(self):
-		super().re_init()
+	def re_init(self, hide=_HIDE):
+		super().re_init(hide=hide)
+		
+		[entry.re_init(hide=hide) for entry in self.all_sprites]
 				
 	def update(self, dt):
 		super().update(dt)

@@ -10,8 +10,6 @@ _accum_time=0
 def update(dt):
 	global _accum_time
 	
-	#_game.sky.update(dt)
-	
 	if _game.paused: 
 		return
 			

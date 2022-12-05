@@ -21,7 +21,8 @@ Base
 |		------TextBase
 |		|
 |		------ButtonBase
-|		
+|				|
+|				------DropDownBase
 |		
 ------TimedUpdate # accum_time, flip_time, do_once, fbf_update, timed_update, do_once_func, stop_iteration
 |		|
@@ -42,6 +43,8 @@ Base
 |		|		------SceneSprite # Sprites that are projected on screen and drawn on game.sprite_space.canvas
 |		|				|						
 |		|				------StaticSprite + 
+|		|				|		|
+|		|				|		------GoalSprite
 |		|				|
 |		|				------AnimatedSprite +
 |		|				|
@@ -57,7 +60,7 @@ Base
 		|
 		------QuadrantTouchObject # Touch Events are divided into four quadrants
 				|
-				------HudBase 
+				------HudBase
 
 
 Applied Bases
@@ -77,13 +80,13 @@ Applied Bases
 		|
 		------ArrayRect # Rects are arranged linearly
 		|		|
-		|		------DigitalRegister
+		|		------DigitalCounter
 		|				|
-		|				------PlayerHealth +
+		|				------DefaultHealthIndicator
 		|
 		------NestedRect # Rects are nested
 		|		|
-		|		------Controller
+		|		------BaseController
 		|				|
 		|				------LeftController +
 		|				|
@@ -91,9 +94,7 @@ Applied Bases
 		|
 		------Grid  # Rects are on a grid
 		|		|
-		|		------ScrollingGrid
-		|				|
-		|				------Map +
+		|		------BaseMinimap
 		|
 		------Walls # Rects are positioned based on ray index and distance from player 
 				|	

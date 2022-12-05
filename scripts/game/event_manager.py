@@ -1,13 +1,15 @@
+
 """ event manager - defines what happens when an event is called, sometimes depending on the game mode"""
 
+from scripts.modules.loaders import auto_loader_module as lsa
 from kivy.clock import Clock
 from settings import *
+import random
 
 
 class EventManager:
 	def __init__(self, game):
 		self.game = game	
-		self.game.event = self 
 		
 	def re_init(self):
 		pass
@@ -20,29 +22,54 @@ class EventManager:
 		
 	#<----- Pre Primary Loop Events
 	def score_card_finished(self):
-		self.game.secondary_loop._accum_time = 18
+		self.game.secondary_loop.set_accum_time(18)
 		
 		#<----Menu
 	def show_intro(self):
 		self.game.tc_mngr.show_intro_card()
+
+	def re_init_game(self):
+		Clock.unschedule(self.game.tick)
+		
+		self.game.audio.theme.stop()
 	
-	def skip(self):	
+		lsa.reload_loading_screen(self.game)
+		self.game.tick = Clock.schedule_interval(lsa.re_load, 0)
+		self.game.loop_num = -1
+	
+	def skip(self):
+		Clock.unschedule(self.game.tick)
+	
 		self.game.tc_mngr.remove_current_card()
+		
 		self.game.audio.theme.stop()
 		self.game.audio.theme.play()
+		
 		self.game.sky.show()
 		self.game.floor.show()
 		self.game.world.show()
-		self.game.sprite_space.reload_sprites()
 		self.game.sprite_space.show()
 		self.game.hud.show()
 		
-		Clock.unschedule(self.game.tick)		
+		Clock.unschedule(self.game.tick)
 		self.game.tick = Clock.schedule_interval(self.game.primary_loop.update, 0)
 		self.game.loop_num = 1
 		
-	def proceed(self):	
+	def proceed(self):
 		self.skip()
+		
+	def finished_reinit(self):
+		self.game.l_screen.remove()
+		self.game.l_screen = None
+		
+		self.game.audio.theme.stop()
+		self.game.audio.theme.play()
+		
+		self.game.tc_mngr.show_intro_card()
+		
+		Clock.unschedule(self.game.tick)
+		self.game.tick = Clock.schedule_interval(self.game.pre_primary_loop.update, 0)
+		self.game.loop_num = 0
 		
 	#<---- Primary Loop Events
 	def start_loading(self):
@@ -51,14 +78,14 @@ class EventManager:
 		self.game.tick = Clock.schedule_interval(lsa.update, 0)
 
 	def finished_loading(self):
-		self.game.has_finished_loading = True
 		Clock.unschedule(self.game.tick)
 		self.game.tick = Clock.schedule_interval(self.game.pre_primary_loop.update, 0)
 		self.game.loop_num = 0
 		
 		self.game.l_screen.remove()
+		self.game.l_screen = None
 	
-		self.game.tc_mngr.show_menu_card()	
+		self.game.tc_mngr.show_menu_card()
 		self.game.audio.play_theme()
 
 	def pauseself(self):
@@ -77,7 +104,15 @@ class EventManager:
 		self.game.window.quit_game()
 		
 	#<---- Secondary Loop Events
+	def start_secondary_loop(self):
+		self.game.minimap.hide()
+		
+		Clock.unschedule(self.game.tick)
+		self.game.tick = Clock.schedule_interval(self.game.secondary_loop.update, 0)
+		self.game.loop_num = 2			
+		
 	def level_clean_up(self):
+		self.game.minimap.hide()
 		self.game.sprite_space.remove_all_sprites()
 		
 	def show_score(self):
@@ -88,28 +123,14 @@ class EventManager:
 	def next_level(self):
 		self.game.secondary_loop._accum_time = 0
 		self.game.tc_mngr.remove_current_card()
-		self.game.player.re_init()
-		self.game.hud.re_init()
-		
-		"""
-		Clock.unschedule(self.game.tick)
-		self.game.tick = Clock.schedule_interval(self.game.primary_loop.update, 0)
-		self.game.loop_num = 1
-
-		self.game.audio.theme.play()
-		self.game.sprite_space.reload_sprites()
-		"""		
 		
 		Clock.unschedule(self.game.tick)
 		self.game.tick = Clock.schedule_interval(self.game.pre_primary_loop.update, 0)
 		self.game.loop_num = 0
-		
-		#self.game.l_screen.remove()
 	
 		self.game.tc_mngr.show_menu_card()	
 		self.game.audio.play_theme()
 
-		
 	#<---- Player Events
 	def player_attack(self):
 		self.game.sprite_space.player_attack()
@@ -124,14 +145,10 @@ class EventManager:
 
 	def player_has_died(self):
 		self.game.audio.theme.stop()
-		self.game.hud.game_over()
 		
 		self.game.hud.game_over()
-			
-		Clock.unschedule(self.game.tick)
-		self.game.tick = Clock.schedule_interval(self.game.secondary_loop.update, 0)
-		self.game.loop_num = 2			
-
+		
+		self.start_secondary_loop()
 		
 	def player_health_updated(self):
 		self.game.hud.player_health.flip(self.game.player.health)
@@ -150,12 +167,15 @@ class EventManager:
 		if self.game.sprite_space.remaining_sprites() == 0:
 			self.game.hud.victory()
 			
-			Clock.unschedule(self.game.tick)
-			self.game.tick = Clock.schedule_interval(self.game.secondary_loop.update, 0)
-			self.game.loop_num = 2			
-		
+			self.start_secondary_loop()
+					
 	def sprite_for_delete(self, sprt):
 		self.game.sprite_space.remove_sprite(sprt)
+		
+	#<----Goal Driven Events
+	def reached_goal(self):
+		self.game.hud.victory()
+		self.start_secondary_loop()
 	
 	#<---- Touch Events
 	def on_touch_down(self, touch):		

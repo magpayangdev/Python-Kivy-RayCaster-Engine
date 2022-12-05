@@ -1,10 +1,18 @@
 
 from scripts.bases.timed_updates.timed_image_sequence import TimedImageSequence
 
+_FLIP_TIME, _START_ITER = 1, False
+_SCREEN_SIZE, _SCREEN_POS, _HIDE = (100,100), (0,0), False
+_SPRITE_ID, _INITIAL_MODE, _COLOR = 'shot_gun', 'idle', (1,1,1,1)
+
 
 class ScreenSprite(TimedImageSequence):
-	def __init__(self, game, window, sprite_id='shot_gun', initial_mode='idle', color=(1,1,1,1), screen_size=(100,100), screen_pos=(100,100), hide=False, flip_time=1, start_iter=False):
-		super().__init__(game=game, window=window, img_seq_id=sprite_id, initial_mode=initial_mode, color=color, size=screen_size, pos=screen_pos, hide=hide, flip_time=flip_time, start_iter=start_iter)
+	def __init__(self, game, window, sprite_id=_SPRITE_ID, initial_mode=_INITIAL_MODE,
+					color=_COLOR, screen_size=_SCREEN_SIZE, screen_pos=_SCREEN_POS,
+						hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER):
+		super().__init__(game=game, window=window, img_seq_id=sprite_id, initial_mode=initial_mode,
+							color=color, size=screen_size, pos=screen_pos, hide=hide, flip_time=flip_time,
+								start_iter=start_iter)
 
 	#<----Sequence Textured Rect Functions
 	#<----Getters
@@ -42,8 +50,12 @@ class ScreenSprite(TimedImageSequence):
 		self.sequence_textured_rect.change_mode(value)
 
 	#<----Base Functions: re_init, update
-	def re_init(self):
-		super().re_init()
+	def re_init(self, sprite_id=_SPRITE_ID, initial_mode=_INITIAL_MODE, color=_COLOR,
+					screen_size=_SCREEN_SIZE, screen_pos=_SCREEN_POS, hide=_HIDE,
+						flip_time=_FLIP_TIME, start_iter=_START_ITER):
+		super().re_init(img_seq_id=sprite_id, initial_mode=initial_mode, color=color,
+							size=screen_size, pos=screen_pos, hide=hide, flip_time=flip_time,
+								start_iter=start_iter)
 		
 	def update(self, dt):
 		super().update(dt)

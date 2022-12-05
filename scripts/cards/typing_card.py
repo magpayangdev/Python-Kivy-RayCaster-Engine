@@ -5,7 +5,7 @@ from settings import *
 _bgkwargs = {'color':(0.1,0.1,0.1,1), 'size':(100,100), 'pos':(0,0)}
 _ikwargs = {'image_name':'py.png','image_category':'game','color':(0.5,0.5,0.5,1),'size':(100,100),'pos':(0,0)}
 _tkwargs = {'text':'', 'font_name':'Modenine', 'halign':'right', 'valign':'bottom', 'font_size':100,  'text_color':(0,1,0,1), 'text_size':(100,100), 'padding_x':100, 'padding_y':100}
-_bkwargs = {'text':'SKIP', 'background_color':(1,1,1,1), 'font_name':'AdventureRequest', 'font_size':75, 'text_color':(1,1,1,1), 'size':(275,100), 'pos':(0,0), 'callback':None}
+_bkwargs = {'text':'SKIP', 'bg_color':(1,1,1,1), 'font_name':'AdventureRequest', 'font_size':75, 'text_color':(1,1,1,1), 'size':(275,100), 'pos':(0,0), 'callback':None}
 
 
 class TypingCard(Card):

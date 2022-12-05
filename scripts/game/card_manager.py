@@ -11,10 +11,6 @@ class CardManager(TouchObject):
 		super().__init__(game=game)
 
 		self.current_card = None
-	
-		self.intro_kwargs = {'game':self.game, 'window':self.game.window, 'hide':False, 'flip_time':0.1, 'pause_speed':1, 'start_iter':True, 'bg_color':(0.5,0.3,0.1,1), 'image_name':"py.png", 'image_category':"game", 'text':SAMPLE_TEXT, 'font_name':"Modenine", 'font_size':100, 'text_color':(0,0,0,1), 'padding_x':100, 'padding_y':100}
-		
-		self.menu_kwargs=None
 		
 	#<----Card Events
 	def remove_current_card(self):
@@ -55,23 +51,19 @@ class CardManager(TouchObject):
 	def on_touch_down(self, touch):
 		super().on_touch_down(touch)
 
-		if self.current_card and self.current_card.button_comp.does_collide(touch):
-			self.current_card.button_state = 'down'
-	
+		try:
+			self.current_card.which_button_collide(touch).state = 'down'
+		except AttributeError:
+			pass
+			
 	def on_touch_move(self, touch):
 		super().on_touch_move(touch)
 		
 	def on_touch_up(self, touch):
 		super().on_touch_up(touch)
 		
-		if self.current_card and self.current_card.button_comp.does_collide(touch):
-			self.current_card.button_state = 'normal'
-		
-		
-		
-		
-		
-		
-		
-		
+		try:
+			self.current_card.which_button_collide(touch).state = 'normal'
+		except AttributeError:
+			pass
 		

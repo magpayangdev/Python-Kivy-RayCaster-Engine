@@ -2,10 +2,15 @@
 from scripts.bases.timed_updates.timed_update import TimedUpdate
 from scripts.bases.window_objects.sequence_textured_rect import SequenceTexturedRect
 
+_FLIP_TIME, _START_ITER = 1, True
+_IMG_SEQ_ID, _INITIAL_MODE = 'soldier', 'idle'
+_COLOR, _SIZE, _POS, _HIDE = (1,1,1,1), (100,100), (0,0), False
+
+
 class TimedImageSequence(TimedUpdate):
 	""" A TimedUpdate that has a rectangle
 			Adds the Rectangle and Textures functions """
-	def __init__(self, game, window, img_seq_id, initial_mode, color=(1,1,1,1), size=(100,100), pos=(0,0), hide=False, flip_time=1, start_iter=False):
+	def __init__(self, game, window, img_seq_id=_IMG_SEQ_ID, initial_mode=_INITIAL_MODE, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER):
 		super().__init__(game=game, flip_time=flip_time, start_iter=start_iter)
 		
 		self.sequence_textured_rect = SequenceTexturedRect(game=game, window=window, img_seq_id=img_seq_id, initial_mode=initial_mode, color=color, size=size, pos=pos, hide=hide)
@@ -50,9 +55,10 @@ class TimedImageSequence(TimedUpdate):
 		self.sequence_textured_rect.change_mode(value)
 
 	#<----Base Functions: re_init, update
-	def re_init(self):
-		super().re_init()
-		self.sequence_textured_rect.re_init()
+	def re_init(self, img_seq_id=_IMG_SEQ_ID, initial_mode=_INITIAL_MODE, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER):
+		super().re_init(flip_time=flip_time, start_iter=start_iter)
+		
+		self.sequence_textured_rect.re_init(img_seq_id=img_seq_id, initial_mode=initial_mode, color=color, size=size, pos=pos, hide=hide)
 		
 	def update(self, dt):
 		super().update(dt)

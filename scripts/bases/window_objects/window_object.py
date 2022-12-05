@@ -7,6 +7,7 @@ class WindowObject(Base):
 
 		self.in_cnvs = False
 		self.window = None
+		
 		if window:
 			self.window=window
 		else:
@@ -48,37 +49,3 @@ class WindowObject(Base):
 		
 	def remove(self):
 		pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

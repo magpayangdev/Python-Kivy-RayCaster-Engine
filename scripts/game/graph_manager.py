@@ -2,17 +2,22 @@
 from scripts.bases.game_bases.graph import Graph
 from scripts.modules.graph import bfs
 
+_WORLD_PATH = 'scripts/resources/docs/default_world_map.txt'
+
+
 class GameGraph(Graph):
-	def __init__(self, game, world_path=''):
+	def __init__(self, game, world_path=_WORLD_PATH, **kwargs):
 		super().__init__(game=game, world_path=world_path)
 		
 		bfs.init(self.game, self)
 	
 		self.npc_locs = []
 		
-	#<----Base Functions: re_init, update		
-	def re_init(self):
-		super().re_init()
+	#<----Base Functions: re_init, update
+	def re_init(self, world_path=_WORLD_PATH, **kwargs):
+		super().re_init(world_path=world_path)
+		
+		self.npc_locs.clear()
 				
 	def update(self, dt):
 		super().update(dt)	

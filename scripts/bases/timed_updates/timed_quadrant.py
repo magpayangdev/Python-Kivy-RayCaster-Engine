@@ -2,8 +2,11 @@
 from scripts.bases.timed_updates.timed_update import TimedUpdate
 from scripts.bases.touch_objects.hud_base import HudBase
 
+
+_HIDE, _FLIP_TIME, _START_ITER = False, 1, True
+
 class TimedQuadrant(TimedUpdate):
-	def __init__(self, game, window=None, hide=False, flip_time=1, start_iter=True):
+	def __init__(self, game, window=None, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER):
 		super().__init__(game=game, flip_time=flip_time, start_iter=start_iter)
 		
 		self.quadrant = HudBase(game=game, window=window)
@@ -51,8 +54,8 @@ class TimedQuadrant(TimedUpdate):
 		self.quadrant.player_is_hit()
 		
 	#<----Base Functions: re_init, update
-	def re_init(self):
-		super().re_init()
+	def re_init(self, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER):
+		super().re_init(flip_time=flip_time, start_iter=start_iter)
 		self.quadrant.re_init()
 		
 	def update(self, dt):

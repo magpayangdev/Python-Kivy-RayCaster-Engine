@@ -32,8 +32,10 @@ def update(dt):
 			engine.run()
 		except StopIteration:
 			break
-	
-				
+
 	if _accum_time > 0.1: #DEBUG_TEXT_REFRESH_RATE:
 		_accum_time = 0.0
 		_game.hud.text = 'FPS {0:0.2f} '.format(1/dt)
+		
+		
+		

@@ -30,21 +30,22 @@ def get_config():
 				continue
 				
 	return "Reading Config File: {}".format(_user_config_path)
-		
-def get_kwargs():
-	#if _game.mode == 'mode 1':
-	_game.kw_args = {key: _config_dict.get(key)[_game.mode - 1] for key in _config_dict}
 
-	#elif _game.mode == 'mode 2':
-	#	_game.kw_args = {key: _config_dict.get(key)[1] for key in _config_dict}
+def get_kwargs():
+	_game.kw_args = {key: _config_dict.get(key)[_game.mode] for key in _config_dict}
 		
 	return "Setting Config KV Pair"
+
 		
-		
-func_iter = (func for func in (get_config,get_kwargs))
+_func_iter = (func for func in (get_config, get_kwargs))
+
+def re_init():
+	global _func_iter
+	
+	_func_iter = (func for func in (get_config, get_kwargs))
 
 def execute():
-	return next(func_iter)()
+	return next(_func_iter)()
 
 def update(dt=0, game_ref=None):
 	global _game

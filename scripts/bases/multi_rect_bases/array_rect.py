@@ -1,33 +1,42 @@
 
-
 from scripts.bases.multi_rect_bases.multi_rect_base import MultiRectBase
 
-class ArrayRect(MultiRectBase):
-	def __init__(self, game, window, num_rects=3, size=(100,100), pos=(0,0), offset=1, hide=False):
+_NUM_RECTS, _COLOR, _SIZE, _POS, _OFFSET, _HIDE = 3, (1,1,1,1), (100,100), (0,0), 0, False
 
-		super().__init__(game=game, window=window, color=(1,1,1,1), num_rects=num_rects, size=size, pos=pos, offset=offset, hide=hide)
+
+class ArrayRect(MultiRectBase):
+	def __init__(self, game, window, num_rects=_NUM_RECTS, 
+					color=_COLOR, size=_SIZE, pos=_POS, offset=_OFFSET, 
+						size_lambda=None, positioning_lambda=None, hide=_HIDE):
 		
-		fpos = lambda idx: (self.pos[0] + (self.offset + self.size[0]) * idx, self.pos[1])
-		for idx, entry in enumerate(self.rects):
-			entry.rect.size = self.size
-			entry.rect.pos = fpos(idx)
+		pos_lambda = lambda idx, size, pos, offset: (pos[0] + (offset + size[0]) * idx, pos[1])
 		
-	#<----Base Functions: re_init, update			
-	def re_init(self):
-		super().re_init()
+		super().__init__(game=game, window=window, num_rects=num_rects, 
+							color=color, size=size, pos=pos, offset=offset, 
+								size_lambda=size_lambda, pos_lambda=pos_lambda, positioning_lambda=positioning_lambda, hide=hide)
+								
+	#<----Base Functions: re_init, update
+	def re_init(self, color=_COLOR, size=_SIZE, pos=_POS, offset=_OFFSET, 
+					size_lambda=None, positioning_lambda=None, hide=_HIDE):
 		
-		self.re_size()
+		pos_lambda = lambda idx, size, pos, offset: (pos[0] + (offset + size[0]) * idx, pos[1])
 		
+		super().re_init(color=color, size=size, pos=pos, offset=offset, 
+							size_lambda=size_lambda, pos_lambda=pos_lambda, positioning_lambda=positioning_lambda, hide=hide)
+								
 	def update(self,dt):
 		super().update(dt)
+
+	#<----Properties		
+	@property
+	def total_width(self):
+		return (self.rects[0].size[0] + self.offset) * self.num_rects
 		
-	#<----Rectangle Functions: re_size, show, hide, remove
-	def re_size(self):
-		fpos = lambda idx: (self.pos[0] + (self.offset + self.size[0]) * idx, self.pos[1])
-		for idx, entry in enumerate(self.rects):
-			entry.rect.size = self.size
-			entry.rect.pos = fpos(idx)
-							
+	@property
+	def total_height(self):
+		return self.rects[0].size[1]
+		
+	#<----Rectangle Functions: re_size, show, hide, remove							
 	def show(self):
 		super().show()
 			

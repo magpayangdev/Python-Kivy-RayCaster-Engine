@@ -2,9 +2,13 @@
 from scripts.bases.base_sprites.screen_sprite import ScreenSprite
 from settings import *
 
+_SPRITE_ID, _FLIP_TIME, _ANIMATE_ON_SPAWN, _HIDE = 'shot_gun', 1, False, True
+
+
 class PlayerSprite(ScreenSprite):
-	def __init__(self, game, sprite_id='shot_gun', flip_time=1, animate_on_spawn=False, hide=True):
-		super().__init__(game=game, window=None, sprite_id=sprite_id, initial_mode='idle', color=(1,1,1,1), screen_size=(100,100), screen_pos=(100,100), hide=hide, flip_time=flip_time, start_iter=animate_on_spawn)
+	def __init__(self, game, sprite_id=_SPRITE_ID, flip_time=_FLIP_TIME, animate_on_spawn=_ANIMATE_ON_SPAWN, hide=_HIDE):
+		super().__init__(game=game, window=None, sprite_id=sprite_id, initial_mode='idle', color=(1,1,1,1), screen_size=(100,100),
+							screen_pos=(100,100), hide=hide, flip_time=flip_time, start_iter=animate_on_spawn)
 		
 		self.init_size = controller_size()	
 		self.init_pos = (scr_width() - controller_size()[0]) / 2, 0
@@ -14,18 +18,13 @@ class PlayerSprite(ScreenSprite):
 		
 	def re_size(self):
 		super().re_size()
-		
-		self.init_size = controller_size()	
-		self.init_pos = (scr_width() - controller_size()[0]) / 2, 0
 
-		self.size = self.init_size
-		self.pos = self.init_pos
-
-	def re_init(self):
-		super().re_init()
+	def re_init(self, sprite_id=_SPRITE_ID, flip_time=_FLIP_TIME, animate_on_spawn=_ANIMATE_ON_SPAWN, hide=_HIDE):
+		super().re_init(sprite_id=sprite_id, initial_mode='idle', color=(1,1,1,1), screen_size=(100,100), screen_pos=(100,100),
+							hide=hide, flip_time=flip_time, start_iter=animate_on_spawn)
 		
-		self.size = self.init_size
-		self.pos = self.init_pos
+		self.size = controller_size()
+		self.pos = (scr_width() - controller_size()[0]) / 2, 0
 		
 	def update(self, dt):
 		super().update(dt)
@@ -87,42 +86,3 @@ class PlayerSprite(ScreenSprite):
 		
 	def stop_attack(self):
 		self.stop()
-
-		
-		
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

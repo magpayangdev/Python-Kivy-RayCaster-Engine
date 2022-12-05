@@ -1,16 +1,29 @@
 
 from scripts.bases.base_sprites.scene_sprite import SceneSprite
 
+_INFLUENCE_RANGE, _INFLUENCE_AMOUNT = 1, 1
+_COLOR, _WORLD_POS, _SCALE, _HIDE = (1,1,1,1), (0,0), (0.5), False
+_SPRITE_ID, _MINIMAP_ICON, _INITIAL_MODE = 'flame', 'fire.png', 'idle'
+_FLIP_TIME, _START_ITER, _HEALTH, _SPEED, _RADIUS = 1, True, 10, 0, 0.1
+
 
 class AnimatedSprite(SceneSprite):
-	def __init__(self, game, sprite_id='flame', minimap_icon='fire.png', initial_mode='idle', color=(1,1,1,1), world_pos=(100,100), scale=0.5, hide=False, flip_time=1, start_iter=True, health=10, speed=0, radius=0.1, influence_range=1, influence_amount=1):
-	
-		super().__init__(game=game, sprite_id=sprite_id, minimap_icon=minimap_icon, initial_mode=initial_mode, color=color, world_pos=world_pos, scale=scale, hide=hide, flip_time=flip_time, start_iter=start_iter, health=health, speed=speed, radius=radius, influence_amount=influence_amount, influence_range=influence_range)	
+	def __init__(self, game, sprite_id=_SPRITE_ID, minimap_icon=_MINIMAP_ICON, initial_mode=_INITIAL_MODE, color=_COLOR,
+					world_pos=_WORLD_POS, scale=_SCALE, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER, health=_HEALTH,
+						speed=_SPEED, radius=_RADIUS, influence_range=_INFLUENCE_RANGE, influence_amount=_INFLUENCE_AMOUNT):
+		super().__init__(game=game, sprite_id=sprite_id, minimap_icon=minimap_icon, initial_mode=initial_mode, color=color,
+							world_pos=world_pos, scale=scale, hide=hide, flip_time=flip_time, start_iter=start_iter, health=health,
+								speed=speed, radius=radius, influence_amount=influence_amount, influence_range=influence_range)	
 		self.loop()
 
 	#<----Base Functions: re_init, update
-	def re_init(self):
-		super().re_init()
+	def re_init(self, sprite_id=_SPRITE_ID, minimap_icon=_MINIMAP_ICON, initial_mode=_INITIAL_MODE, color=_COLOR, world_pos=_WORLD_POS,
+					scale=_SCALE, hide=_HIDE, flip_time=_FLIP_TIME, start_iter=_START_ITER, health=_HEALTH, speed=_SPEED, radius=_RADIUS,
+						influence_range=_INFLUENCE_RANGE, influence_amount=_INFLUENCE_AMOUNT):
+		super().re_init(sprite_id=sprite_id, minimap_icon=minimap_icon, initial_mode=initial_mode, color=color, world_pos=world_pos,
+							scale=scale, hide=hide, flip_time=flip_time, start_iter=start_iter, health=health, speed=speed, radius=radius, 
+								influence_amount=influence_amount, influence_range=influence_range)
+		self.loop()
 		
 	def update(self, dt):
 		super().update(dt)

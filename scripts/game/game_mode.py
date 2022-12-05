@@ -6,8 +6,8 @@ from kivy.clock import Clock
 from scripts.modules.loaders import auto_loader_module as lsa
 
 class GameMode:
-	def __init__(self, window, mode=1):
-		self.mode = mode
+	def __init__(self, window):
+		self.mode = 0
 		self.tick = None
 		
 		self.loop_num = -1
@@ -15,7 +15,6 @@ class GameMode:
 		self.do_once = True
 		self.paused = False
 		self.window = window
-		self.has_finished_loading = False
 
 		self.wt = None
 		self.hud = None
@@ -34,8 +33,6 @@ class GameMode:
 		self.primary_loop = None
 		self.sprite_space = None
 		
-		self.ls_kwargs = {'color':(0.2,0.5,0.6, 1),'text':'L Screen','font_size':30}
-		
 		self.start_loading()
 
 	def re_init(self):
@@ -50,43 +47,3 @@ class GameMode:
 			lsa.re_init(self)
 			lsa.create_loading_screen(self)
 			self.tick = Clock.schedule_interval(lsa.update, 0)
-
-		
-		
-
-
-			
-			
-			
-		
-		
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-
-	
-	
-	
-	
-	
-	
-	

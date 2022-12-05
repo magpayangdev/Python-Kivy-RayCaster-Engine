@@ -1,17 +1,27 @@
 
 from scripts.bases.window_objects.rect_base import RectBase
 
+_COLOR, _SIZE, _POS, _HIDE = (1,1,1,0), (100,100), (0,0), True
+
+
 class HitRect(RectBase):
-	def __init__(self, game, hide=True):
-		super().__init__(game=game, window=None, color=(1,0,0,0), size=game.window.size, pos=game.window.pos, hide=hide)
-			
-	#<----Base Functions: re_init, update			
-	def re_init(self):
-		super().re_init()
+	def __init__(self, game, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE):
+		super().__init__(game=game, window=None, color=color, size=size, pos=pos, hide=hide)
 		
 		self.size = self.window.size
 		self.pos = self.window.pos
+		self.color = color
+		self.texture = None
+			
+	#<----Base Functions: re_init, update			
+	def re_init(self, color=_COLOR, size=_SIZE, pos=_POS, hide=_HIDE):
+		super().re_init(color=color, size=size, pos=pos, hide=hide)
 		
+		self.size = self.window.size
+		self.pos = self.window.pos
+		self.color = color
+		self.texture = None
+				
 	def update(self,dt):
 		super().update(dt)
 		

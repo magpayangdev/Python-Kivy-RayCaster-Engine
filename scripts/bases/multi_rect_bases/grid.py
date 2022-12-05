@@ -1,32 +1,38 @@
 
+from settings import *
 from scripts.modules.graph import coord_converter as coord_cnvrtr
 from scripts.bases.multi_rect_bases.multi_rect_base import MultiRectBase
-from settings import *
+
+_COLOR, _NUM_RECTS, _SIZE, _POS, _OFFSET, _HIDE = (1,1,1,1), 16*16, (100,100), (0,0), 0, False
+
 
 class Grid(MultiRectBase):
 	""" individual elememts are positioned and size at init once
-			colour are updated every frame to get the illusion of scrolling """
-	def __init__(self, game, window, num_rects, size, hide=False):
-
-		super().__init__(game=game, window=window, color=(1,1,1,1), num_rects=num_rects, size=size, pos=(0,0), offset=0, hide=hide)
+			colour are updated every frame to get the illusion of scrolling """	
+	def __init__(self, game, window, num_rects=_NUM_RECTS, size=_SIZE, hide=_HIDE):
 	
-		self.scale_x, self.scale_y = 0,0
-		self.offset_x, self.offset_y = 0,0
-		
-		self.scr_width = 0
-		self.scr_height = 0
-		
-		self.width = 0
-		self.height = 0
-		self.half_width = 0
-		self.half_height = 0
+		super().__init__(game=game, window=window, num_rects=num_rects, color=_COLOR, size=size, pos=_POS, hide=hide)
 
-		self.re_init()
-		self.re_size()
+		self.scale_x, self.scale_y = g_block_size()
+		self.offset_x, self.offset_y = map_centre_o()
+		
+		self.scr_width = NUMBER_OF_BLOCKS_ACROSS * self.scale_x
+		self.scr_height = NUMBER_OF_BLOCKS_ACROSS * self.scale_y
+
+		self.height = NUMBER_OF_BLOCKS_DOWN		
+		self.width = NUMBER_OF_BLOCKS_ACROSS
+
+		self.half_height = NUMBER_OF_BLOCKS_DOWN / 2
+		self.half_width = NUMBER_OF_BLOCKS_ACROSS / 2
+
+		for idx, entry in enumerate(self.rects):
+			self.set_block_transforms(entry, idx)
+			self.set_block_colour(entry, idx, False)
 		
 	#<----Base Functions: re_init, update			
-	def re_init(self):
-		
+	def re_init(self, size=_SIZE, hide=_HIDE):
+		super().re_init(color=_COLOR, size=size, pos=_POS, hide=hide)
+
 		self.scale_x, self.scale_y = g_block_size()
 		self.offset_x, self.offset_y = map_centre_o()
 		
@@ -37,21 +43,18 @@ class Grid(MultiRectBase):
 		self.height = NUMBER_OF_BLOCKS_DOWN
 		self.half_width = NUMBER_OF_BLOCKS_ACROSS / 2
 		self.half_height = NUMBER_OF_BLOCKS_DOWN / 2
+		
+		for idx, entry in enumerate(self.rects):
+			self.set_block_transforms(entry, idx)
+			self.set_block_colour(entry, idx, False)
 			
 	def update(self,dt):
-		super().update(dt)
+		#super().update(dt) #<----Not necessary
 		
 		for idx, entry in enumerate(self.rects):
 			self.set_block_colour(entry, idx, False)
 		
 	#<----Rectangle Functions: re_size, show, hide, remove
-	def re_size(self):
-		#super().re_size()
-		
-		for idx, entry in enumerate(self.rects):
-			self.set_block_transforms(entry, idx)
-			self.set_block_colour(entry, idx, False)
-		
 	def show(self):
 		super().show()
 			
@@ -60,12 +63,6 @@ class Grid(MultiRectBase):
 			
 	def remove(self):
 		super().remove()
-		
-	def flip(self):
-		if self.in_cnvs:
-			self.hide()
-		else:
-			self.show()
 
 	def set_block_transforms(self, rect, idx):
 		col = idx % self.width

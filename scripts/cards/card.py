@@ -7,7 +7,7 @@ from scripts.bases.window_objects.button_base import ButtonBase
 _bgkwargs = {'color':(0.1,0.1,0.1,1), 'size':(100,100), 'pos':(0,0)}
 _ikwargs = {'image_name':'py.png', 'image_category':'game', 'color':(1,1,1,1), 'size':(100,100), 'pos':(0,0)}
 _tkwargs = {'text':'Label Text', 'font_name':'Modenine', 'halign':'center', 'valign':'middle', 'font_size':100,  'text_color':(0.5,0.3,0.1,1), 'text_size':(100,100), 'padding_x':100, 'padding_y':100}
-_bkwargs = {'text':'BUTTON', 'background_color':(0,0,0,1), 'font_name':'AdventureRequest', 'font_size':100, 'text_color':(1,1,1,1), 'size':(100,100), 'pos':(0,0), 'callback':None}
+_bkwargs = {'text':'BUTTON', 'bg_color':(1,1,1,1), 'font_name':'AdventureRequest', 'font_size':100, 'text_color':(1,1,1,1), 'size':(100,100), 'pos':(0,0), 'callback':None}
 
 class Card(RectBase):
 	def __init__(self, game,  window, hide=False, bgkwargs=_bgkwargs, ikwargs=_ikwargs, tkwargs=_tkwargs, bkwargs=_bkwargs):
@@ -21,6 +21,15 @@ class Card(RectBase):
 		self.image_comp = TexturedRect(game=game, window=window, hide=hide, **ikwargs)
 		self.text_comp = TextBase(game=game, window=window, hide=hide, **tkwargs)
 		self.button_comp = ButtonBase(game=game, window=window, hide=hide, **bkwargs)
+		
+		self.all_buttons = [self.button_comp,]
+	
+	#<----Card Funcs
+	def which_button_collide(self, touch):
+		for idx, entry in enumerate(self.all_buttons):
+			if entry.does_collide(touch):
+				return entry
+		return None
 
 	#<----Image Properties
 	@property
@@ -103,6 +112,14 @@ class Card(RectBase):
 	def text_size(self):
 		return self.text_comp.size
 		
+	@property
+	def padding_x(self):
+		return self.text_comp.pad_x
+		
+	@property
+	def padding_y(self):
+		return self.text_comp.pad_y
+		
 	#<----Text Setter
 	@text.setter
 	def text(self, value):
@@ -111,6 +128,14 @@ class Card(RectBase):
 	@text_size.setter
 	def text_size(self, value):
 		self.text_comp.size = value
+		
+	@padding_x.setter
+	def padding_x(self, value):
+		self.text_comp.pad_x = value
+		
+	@padding_y.setter
+	def padding_y(self, value):
+		self.text_comp.pad_y = value
 		
 	#<----Button Funcs	
 	def button_callback(self, instance, state):
