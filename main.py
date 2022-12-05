@@ -12,3 +12,5 @@ class MainApp(App):
 
 if __name__ == "__main__":
 	MainApp().run()
+
+__version__="1.0.3"
